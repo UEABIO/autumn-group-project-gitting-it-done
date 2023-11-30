@@ -32,3 +32,7 @@ covid_data <- rename(covid_data,
                      "hospital_discharge_date"="hosp_dischdt_false",
                      "died_date"="died_dt_false",
                      "positive_pcr_date"="pos_sampledt_false")
+
+# checking for duplicated rows in the data 
+covid_data %>% 
+  duplicated() %>% sum()
