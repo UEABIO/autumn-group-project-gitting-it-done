@@ -8,3 +8,7 @@ library(here)
 library(ggthemes)
 
 #Loading Data 
+covid_data <- read_csv("data/covid_example_data.csv") 
+
+head(covid_data)
+view(covid_data)
