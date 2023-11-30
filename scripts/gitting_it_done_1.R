@@ -1,3 +1,7 @@
+#Clearing Environment at start of session
+rm(list=ls())
+
+
 #Setting up RScript ----
 library(tidyverse)
 library(janitor)
@@ -36,3 +40,8 @@ covid_data <- rename(covid_data,
 # checking for duplicated rows in the data 
 covid_data %>% 
   duplicated() %>% sum()
+
+# checking for missing values 
+covid_data %>% 
+  is.na() %>% 
+  sum()
