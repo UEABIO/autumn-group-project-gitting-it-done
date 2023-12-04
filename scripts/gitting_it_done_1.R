@@ -66,5 +66,5 @@ covid_data_date_correct %>%
   is.na() %>% 
   sum()
 
-view(covid_data_)
+view(covid_data_date_correct)
 
