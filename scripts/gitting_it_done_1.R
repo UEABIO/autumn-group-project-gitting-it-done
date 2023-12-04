@@ -14,8 +14,6 @@ library(ggthemes)
 #Loading Data 
 covid_data <- read_csv("data/covid_example_data.csv") 
 
-head(covid_data)
-view(covid_data)
 
 # cleaning our data set 
 ## making all variable names snake case 
@@ -41,7 +39,32 @@ covid_data <- rename(covid_data,
 covid_data %>% 
   duplicated() %>% sum()
 
-# checking for missing values 
+# removing duplicate 
+
+# checking for missing valuesin whole data set 
 covid_data %>% 
   is.na() %>% 
   sum()
+
+# Changing Dates ----
+
+covid_data_date_correct <- covid_data %>% 
+  mutate(report_date = lubridate :: dmy(report_date))%>% 
+  mutate(case_dob = lubridate :: dmy(case_dob)) %>% 
+  mutate(sym_start_date = lubridate :: dmy(sym_start_date)) %>% 
+  mutate(sym_resolved_date = lubridate :: dmy(sym_resolved_date)) %>% 
+  mutate(hospital_admission_date = lubridate :: dmy(hospital_admission_date)) %>% 
+  mutate(hospital_discharge_date = lubridate :: dmy(hospital_discharge_date)) %>% 
+  mutate(died_date = lubridate :: dmy(died_date)) %>% 
+  mutate(positive_pcr_date = lubridate :: dmy(positive_pcr_date))
+
+# confirming format has changed 
+head(covid_data_date_correct)
+
+# checking for any new missing values 
+covid_data_date_correct %>% 
+  is.na() %>% 
+  sum()
+
+
+
