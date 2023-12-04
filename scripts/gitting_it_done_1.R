@@ -35,10 +35,6 @@ covid_data <- rename(covid_data,
                      "died_date"="died_dt_false",
                      "positive_pcr_date"="pos_sampledt_false")
 
-# checking for duplicated rows in the data 
-covid_data %>% 
-  duplicated() %>% sum()
-
 # removing duplicate 
 
 # checking for missing valuesin whole data set 
@@ -67,4 +63,30 @@ covid_data_date_correct %>%
   sum()
 
 view(covid_data_date_correct)
+
+
+# checking for duplicated rows in the data and removing the duplicated data sets 
+# Found that case_zip is unreliable 
+
+covid_data_date_correct %>% 
+  summarise(n_distinct(personal_id, report_date, case_dob))
+
+covid_data_date_correct %>% 
+  dplyr::distinct(personal_id, report_date, case_dob) %>% nrow() 
+
+covid_data_date_correct %>% 
+  group_by(personal_id, report_date, case_dob) %>% 
+  filter(n()>1) %>% 
+  view()
+
+covid_data_date_correct %>%
+  ungroup() %>% 
+  view()
+
+# creating a data set without case_zip 
+
+covid_data_clean <- covid_data_date_correct %>% 
+select(-case_zip) %>% 
+  view()
+
 
