@@ -89,4 +89,17 @@ covid_data_clean <- covid_data_date_correct %>%
 select(-case_zip) %>% 
   view()
 
+# check for duplicate rows in new data
+covid_data_clean %>% 
+  duplicated() %>% 
+  sum() 
+
+covid_data_clean %>% 
+  group_by(personal_id,report_date,case_dob,case_age,case_gender) %>% 
+  filter(n()>1) %>% 
+  View()
+
+covid_data_clean %>% 
+  group_by(report_date, case_gender) %>% 
+  filter(! = "personal_id")
 
