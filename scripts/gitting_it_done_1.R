@@ -99,7 +99,3 @@ covid_data_clean %>%
   filter(n()>1) %>% 
   View()
 
-covid_data_clean %>% 
-  group_by(report_date, case_gender) %>% 
-  filter(! = "personal_id")
-
