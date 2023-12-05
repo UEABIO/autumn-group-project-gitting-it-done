@@ -89,8 +89,6 @@ covid_data_clean %>%
   filter(n()>1)
 
 covid_data_no_duplicates <- covid_data_clean[!duplicated(covid_data_clean), ]
-write.csv(covid_data_no_duplicates, ("data/covid_example_data.csv"))
-
 
 # check for duplicate rows in new data, = 0 so no more duplicates 
 covid_data_no_duplicates %>% 
