@@ -26,24 +26,38 @@ sym_fever_yes <- covid_symptoms_data %>%
   filter(sym_fever == "Yes") %>% 
   select(sym_fever)
 
-
-
- glimpse(sym_fever_yes)
+covid_symptoms_data %>% 
+  group_by(sym_fever) %>% 
+  summarise(num=n())    # Getting an idea for numbers of symptom Yes cases
 
 
  sym_cough_yes <- covid_symptoms_data %>%
    filter(sym_cough == "Yes") %>% 
    select(sym_cough)
 
- glimpse(sym_cough_yes)
+ 
 
-merge(sym_cough_yes, sym_fever_yes) %>% 
-  glimpse()
+# Testing combining yes variables without taking out rows
  
  
+ covid_symptoms_data <-  covid_data_no_duplicates %>% 
+   select(sym_fever, sym_subjfever, sym_myalgia, sym_loss_taste_smell,
+          sym_sorethroat, sym_cough, sym_headache)
+ 
+ 
+ 
+  covid_symptoms_data %>% 
+    group_by(sym_fever) %>% 
+    summarise(num=n())
   
   
   
+  
+  covid_symptoms_data %>% 
+    select_if("Yes") %>% 
+    glimpse()
+  
+  # Now realising i need to create sum columns of Yes for each symptom
   
   
   
