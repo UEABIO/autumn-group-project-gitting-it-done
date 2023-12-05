@@ -69,18 +69,15 @@ covid_data_date_correct %>%
 
 covid_data_date_correct %>% 
   group_by(personal_id, report_date, case_dob) %>% 
-  filter(n()>1) %>% 
-  view()
+  filter(n()>1)
 
 covid_data_date_correct %>%
-  ungroup() %>% 
-  view()
+  ungroup()
 
 # creating a data set without case_zip 
 
 covid_data_clean <- covid_data_date_correct %>% 
-select(-case_zip) %>% 
-  view()
+select(-case_zip)
 
 # check for duplicate rows in new data
 covid_data_clean %>% 
@@ -89,8 +86,7 @@ covid_data_clean %>%
 
 covid_data_clean %>% 
   group_by(personal_id,report_date,case_dob,case_age,case_gender) %>% 
-  filter(n()>1) %>% 
-  View()
+  filter(n()>1)
 
 covid_data_no_duplicates <- covid_data_clean[!duplicated(covid_data_clean), ]
 
@@ -98,10 +94,4 @@ covid_data_no_duplicates <- covid_data_clean[!duplicated(covid_data_clean), ]
 covid_data_no_duplicates %>% 
   duplicated() %>% 
   sum() 
-
-head(covid_data_no_duplicates)
-view(covid_data_no_duplicates)
-glimpse(covid_data_no_duplicates)
-
-# exploring our clean data 
 
