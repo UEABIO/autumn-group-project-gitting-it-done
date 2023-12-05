@@ -34,21 +34,37 @@ symptoms_yes_data %>%
   ggplot(aes(x=)) +
   geom_bar()
   
+sym_fever_yes <- covid_symptoms_data %>% 
+  filter(sym_fever == "Yes") %>% 
+  select(sym_fever) %>% 
+  glimpse()
+
+
+sym_fever_yes %>% 
+  ggplot(aes(x = sym_fever)) +
+  geom_bar()
+
+
+
+
+ 
+  sym_fever_yes_count <- covid_symptoms_data %>% 
+    filter(sym_fever == "Yes") %>%
+    count(sym_fever)
 
   
-  
   covid_symptoms_data %>% 
-  count(sym_fever)
- 
-  covid_symptoms_data %>% 
-    filter(sym_fever== "Yes") %>%
-    count(sym_fever)
+    ggplot(aes(y = sym_fever)) +
+    geom_bar()
   
   
   
   
   
   
+  
+  
+
   
 #_________________----
 # % of people with symptoms ----
