@@ -36,11 +36,6 @@ covid_data <- rename(covid_data,
                      "died_date"="died_dt_false",
                      "positive_pcr_date"="pos_sampledt_false")
 
-# checking for missing valuesin whole data set 
-covid_data %>% 
-  is.na() %>% 
-  sum()
-
 # Data set date correct ----
 
 covid_data_date_correct <- covid_data %>% 
@@ -53,7 +48,7 @@ covid_data_date_correct <- covid_data %>%
   mutate(died_date = lubridate :: dmy(died_date)) %>% 
   mutate(positive_pcr_date = lubridate :: dmy(positive_pcr_date))
 
-# checking for any new missing values 
+# checking for any missing values 
 covid_data_date_correct %>% 
   is.na() %>% 
   sum()
@@ -63,20 +58,13 @@ covid_data_date_correct %>%
 # Found that case_zip is unreliable 
 
 covid_data_date_correct %>% 
-  summarise(n_distinct(personal_id, report_date, case_dob))
-
-covid_data_date_correct %>% 
   dplyr::distinct(personal_id, report_date, case_dob) %>% nrow() 
 
 covid_data_date_correct %>% 
   group_by(personal_id, report_date, case_dob) %>% 
   filter(n()>1)
 
-covid_data_date_correct %>%
-  ungroup()
-
 # creating a data set without case_zip 
-
 # Data set without case_zip ----
 covid_data_clean <- covid_data_date_correct %>% 
 select(-case_zip)
@@ -86,17 +74,11 @@ covid_data_clean %>%
   duplicated() %>% 
   sum() 
 
-covid_data_clean %>% 
-  group_by(personal_id,report_date,case_dob,case_age,case_gender) %>% 
-  filter(n()>1)
-
 # Data set without duplicates ----
 covid_data_no_duplicates <- covid_data_clean[!duplicated(covid_data_clean), ]
-
 
 # check for duplicate rows in new data, = 0 so no more duplicates 
 covid_data_no_duplicates %>% 
   duplicated() %>% 
   sum() 
 
-glimpse(covid_data_no_duplicates)
