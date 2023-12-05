@@ -35,8 +35,6 @@ covid_data <- rename(covid_data,
                      "died_date"="died_dt_false",
                      "positive_pcr_date"="pos_sampledt_false")
 
-# removing duplicate 
-
 # checking for missing valuesin whole data set 
 covid_data %>% 
   is.na() %>% 
@@ -54,17 +52,12 @@ covid_data_date_correct <- covid_data %>%
   mutate(died_date = lubridate :: dmy(died_date)) %>% 
   mutate(positive_pcr_date = lubridate :: dmy(positive_pcr_date))
 
-# confirming format has changed 
-head(covid_data_date_correct)
-
 # checking for any new missing values 
 covid_data_date_correct %>% 
   is.na() %>% 
   sum()
 
-view(covid_data_date_correct)
-
-
+# Removing Duplicated Data ----
 # checking for duplicated rows in the data and removing the duplicated data sets 
 # Found that case_zip is unreliable 
 
@@ -98,4 +91,17 @@ covid_data_clean %>%
   group_by(personal_id,report_date,case_dob,case_age,case_gender) %>% 
   filter(n()>1) %>% 
   View()
+
+covid_data_no_duplicates <- covid_data_clean[!duplicated(covid_data_clean), ]
+
+# check for duplicate rows in new data, = 0 so no more duplicates 
+covid_data_no_duplicates %>% 
+  duplicated() %>% 
+  sum() 
+
+head(covid_data_no_duplicates)
+view(covid_data_no_duplicates)
+glimpse(covid_data_no_duplicates)
+
+# exploring our clean data 
 
