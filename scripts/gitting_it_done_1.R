@@ -11,7 +11,7 @@ library(plotly)
 library(here)
 library(ggthemes)
 
-#Loading Data 
+# Data set Orignial loading ----
 covid_data <- read_csv("data/covid_example_data.csv") 
 
 
@@ -20,7 +20,8 @@ covid_data <- read_csv("data/covid_example_data.csv")
 
 covid_data <- janitor::clean_names(covid_data)
 
-colnames(covid_data) #quickly checks the new variable names 
+# checking new variable names 
+colnames(covid_data) 
 
 # renaming some of the variables 
 covid_data <- rename(covid_data,
@@ -40,7 +41,7 @@ covid_data %>%
   is.na() %>% 
   sum()
 
-# Changing Dates ----
+# Data set date correct ----
 
 covid_data_date_correct <- covid_data %>% 
   mutate(report_date = lubridate :: dmy(report_date))%>% 
@@ -76,6 +77,7 @@ covid_data_date_correct %>%
 
 # creating a data set without case_zip 
 
+# Data set without case_zip ----
 covid_data_clean <- covid_data_date_correct %>% 
 select(-case_zip)
 
@@ -88,6 +90,7 @@ covid_data_clean %>%
   group_by(personal_id,report_date,case_dob,case_age,case_gender) %>% 
   filter(n()>1)
 
+# Data set without duplicates ----
 covid_data_no_duplicates <- covid_data_clean[!duplicated(covid_data_clean), ]
 
 
@@ -96,4 +99,4 @@ covid_data_no_duplicates %>%
   duplicated() %>% 
   sum() 
 
-save(covid_data_no_duplicates, file = "covid_data_no_duplicates_data.csv")
+glimpse(covid_data_no_duplicates)
