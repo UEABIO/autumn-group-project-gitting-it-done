@@ -90,7 +90,10 @@ covid_data_clean %>%
 
 covid_data_no_duplicates <- covid_data_clean[!duplicated(covid_data_clean), ]
 
+
 # check for duplicate rows in new data, = 0 so no more duplicates 
 covid_data_no_duplicates %>% 
   duplicated() %>% 
   sum() 
+
+save(covid_data_no_duplicates, file = "covid_data_no_duplicates_data.csv")

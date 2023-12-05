@@ -15,6 +15,8 @@ library(ggthemes)
 
 
 # Creating data set ----
+head(covid_data_no_duplicates)
 
-select(covid_data_no_duplicates %>% 
-       personal_id, case_age, case_gender, hospitalized)
+covid_data_age_gender_hospitalized <- select(.data = covid_data_no_duplicates, 
+              case_age, case_gender, hospitalized) %>% 
+  view()
