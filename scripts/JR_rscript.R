@@ -43,26 +43,93 @@ covid_symptoms_data %>%
  covid_symptoms_data <-  covid_data_no_duplicates %>% 
    select(sym_fever, sym_subjfever, sym_myalgia, sym_loss_taste_smell,
           sym_sorethroat, sym_cough, sym_headache)
- 
- 
- 
-  covid_symptoms_data %>% 
-    group_by(sym_fever) %>% 
-    summarise(num=n())
   
-  
-  
-  
-  covid_symptoms_data %>% 
-    select_if("Yes") %>% 
-    glimpse()
   
   # Now realising i need to create sum columns of Yes for each symptom
   
   
   
+  new_covid_symptoms_data <- covid_symptoms_data %>% 
+    mutate(sym_fever_count = sym_fever)
+
+  
+  # Attempt to bodge R... ----
+  #Going to try adding up all the Yes symptoms and creating a new Tibble
+  
+  # Finding out number of Yes for each symptom...
+  covid_symptoms_data %>% 
+    group_by(sym_fever) %>% 
+    summarise(num=n())
+  # No. Yes for fever = 15126
+  
+  covid_symptoms_data %>% 
+    group_by(sym_subjfever) %>% 
+    summarise(num=n())
+  # No. Yes for subjfever = 12711
+  
+  covid_symptoms_data %>% 
+    group_by(sym_myalgia) %>% 
+    summarise(num=n())
+  # No. Yes for myalgia = 19532
+  
+  covid_symptoms_data %>% 
+    group_by(sym_loss_taste_smell) %>% 
+    summarise(num=n())
+  # No. Yes for loss taste/ smell = 12734
+  
+  covid_symptoms_data %>% 
+    group_by(sym_sorethroat) %>% 
+    summarise(num=n())
+  # No. Yes for sorethroat = 12516
+  
+  covid_symptoms_data %>% 
+    group_by(sym_cough) %>% 
+    summarise(num=n())
+  # No. Yes for cough =  21942
+  
+  covid_symptoms_data %>% 
+    group_by(sym_headache) %>% 
+    summarise(num=n())
+  # No. Yes for headache = 21673
+
+  
+  #Making the vectors
+  
+  fever <- c(15126)
+  subjfever <- c(12711)
+  myalgia <- c(19532)
+  loss_taste_smell <- c(12734)
+  sore_throat <- c(12516)
+  cough <- c(21942)
+  headache <- c(21673)
+  
+  # make a tibble
+  symptom_totals <- tibble(fever, subjfever, myalgia, loss_taste_smell,
+                           sore_throat, cough, headache)
+  symptom_totals
+  
+  
+  # Now to plot the new tibble...
+  
+  symptom_totals %>% 
+    ggplot(aes(x= cough))+
+    geom_bar()
+  
+  
+  
+  ggplot(data = symptom_totals %>% gather(fever, subjfever, myalgia,
+                                          loss_taste_smell, sore_throat,
+                                          cough, headache), 
+        aes(x = fever, y = myalgia )) + 
+    geom_bar(stat = 'identity', position = 'dodge')
+  
+  
+  
   
 
+  
+  
+  
   
 #_________________----
 # % of people with symptoms ----
