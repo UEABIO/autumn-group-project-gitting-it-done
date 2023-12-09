@@ -30,7 +30,7 @@ covid_data_age_gender_hospitalized <- arrange(.data = covid_data_age_gender_hosp
 # total females hospitalised
 # average age
 
-# managing the NA values ---- 
+# Managing the NA values ---- 
 
 # Get a sum of how many observations are missing in our dataframe
 covid_data_age_gender_hospitalized %>% 
@@ -47,7 +47,7 @@ covid_data_age_gender_hospitalized_2 %>%
 glimpse(covid_data_age_gender_hospitalized_2)
 
 
-# Exploring values - *NOT WORKED*
+# Exploring values - 
 
 covid_data_age_gender_hospitalized_2 %>% 
   summarise(n=n(), # number of rows of data
@@ -57,16 +57,45 @@ covid_data_age_gender_hospitalized_2 %>%
             quantity_hospitalised = sum(hospitalized == "Yes"),
             quantity_not_hospitalised = sum(hospitalized == "No"))
 
-covid_data_age_gender_hospitalized_2 %>% 
-  summarise(n=n(),
-            number_females_hospitalised = count(case_gender == "Female", hospitalized == "Yes"),
-            number_males_hospitalised = count(case_gender == "Male",hospitalized == "Yes"),
-            number_females_not_hospitalised = count(case_gender == "Female",hospitalized == "No"),
-            number_males_not_hospitalised = count(case_gender == "Male",hospitalized == "No"))
-            
-
-
 # 81 Genders unknown, however cannot discard this data as data entry may not have accounted for non-binary/trans community
+
+# Totals of each gender of each age 
+totals_age_gender <- covid_data_age_gender_hospitalized_2 %>% 
+  group_by(case_age, case_gender) %>% 
+  summarise(num=n())
+
+  view(totals_age_gender)
+
+# totals of each gender and age separated by hospitalized or not
+totals_age_gender_hospitalized <- covid_data_age_gender_hospitalized_2 %>% 
+  group_by(case_age, case_gender, hospitalized) %>%
+  summarise(num=n()) %>% 
+  mutate()
+
+  view(totals_age_gender_hospitalized)
+
+
+# number of hospitalized for each age, removing unknown data 
+
+age_vs_hospitalisation_data <- covid_data_age_gender_hospitalized_2 %>% 
+  group_by(case_age, case_gender) %>% 
+  filter(hospitalized == "Yes", !case_gender == "Unknown") %>% 
+  summarise(n = n())
+  
+  
+  mutate(prob = n/sum()) 
+
+# INCORRECT need to be out of the number of total number of gender of that age
+
+view(age_vs_hospitalisation_data)
+
+
+age_vs_hospitalisation_data %>% 
+  ggplot(aes(x = case_age, 
+             y = prob,
+             colour = case_gender))+
+  geom_point()
+  theme_minimal()
 
 # NEED TO CREATE TWO SEPERATE DATA SETS TO LOOK AT RELATIONSHIP BETWEEN GENDER AND HOSPITALISATION 
 
@@ -74,6 +103,7 @@ covid_data_age_gender_hospitalized_2 %>%
 # I want to look at the relationship between age and rate of hospitalization
 # I want to create a visual which encompasses both factors and hospitalization 
   
+
   
   
   
