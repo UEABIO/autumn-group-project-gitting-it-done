@@ -108,17 +108,57 @@ summary(age_gender_total_hosp_elderly)
 
 
 # Creating Graph ----
-
 age_gender_total_hosp %>% 
   ggplot(aes(x = case_age, 
              y = percentage,
              colour = case_gender)) +
-  geom_point(size = 0.05) +
+  geom_point() +
   labs(x = "Patient Age",
        y = "% of Patients Hospitalised",
        title= "Risk of Hospitalisation from Covid-19",
        subtitle= "Percentage of patients hospitalised based on age and gender")+
   theme_clean()
+
+
+# with the colour blocks just need to alpha so it blends with background 
+age_gender_total_hosp %>% 
+  ggplot() +
+  geom_point(aes(x = case_age, 
+                 y = percentage,
+                 colour = case_gender)) +
+  geom_rect(aes(xmin=0,xmax=18,ymin=-Inf,ymax=Inf),alpha=4,fill= "lightsteelblue1")+
+  geom_rect(aes(xmin=18,xmax=50,ymin=-Inf,ymax=Inf),alpha=4,fill="honeydew2")+
+  geom_rect(aes(xmin=50,xmax=Inf,ymin=-Inf,ymax=Inf),alpha=4,fill="mistyrose1")+
+  labs(x = "Patient Age",
+       y = "% of Patients Hospitalised",
+       title= "Risk of Hospitalisation from Covid-19",
+       subtitle= "Percentage of patients hospitalised based on age and gender")+
+  theme_clean()
+
+# playing around to make this graph work 
+age_gender_total_hosp %>% 
+  ggplot() +
+  geom_point(aes(x = case_age, 
+                 y = percentage,
+                 colour = case_gender)) +
+  geom_rect(aes(xmin=0,xmax=18,ymin=-Inf,ymax=Inf),alpha= 0.02,fill= "lightsteelblue1")+
+  geom_rect(aes(xmin=18,xmax=50,ymin=-Inf,ymax=Inf),alpha=0.02, fill=  "honeydew2")+
+  geom_rect(aes(xmin=50,xmax=Inf,ymin=-Inf,ymax=Inf),alpha=0.02,fill= "mistyrose1")+
+  labs(x = "Patient Age",
+       y = "% of Patients Hospitalised",
+       title= "Risk of Hospitalisation from Covid-19",
+       subtitle= "Percentage of patients hospitalised based on age and gender")+
+  theme_clean()
+
+
+
+# code to add label in the style that i want, need to add them to the colour blocks 
+geom_label(aes(label = c("3.0482", "5.5720", "38.713" )), 
+           nudge_x = -2,
+           fill = "white",
+           fontface = "bold",
+           family = "Fira Sans")
+
 
 
 
