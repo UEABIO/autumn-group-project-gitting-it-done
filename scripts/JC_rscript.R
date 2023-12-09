@@ -17,7 +17,6 @@ library(plotly)
 library(here)
 library(ggthemes)
 
-
 # Creating and tidying data set ----
 
 covid_data_age_gender_hospitalized <- select(.data = covid_data_no_duplicates, 
@@ -71,15 +70,6 @@ totals_age_gender <- covid_data_age_gender_hospitalized_2 %>%
   
   view(totals_age_gender)
 
-# totals of each gender and age separated by hospitalized or not
-totals_age_gender_hospitalized <- covid_data_age_gender_hospitalized_2 %>% 
-  group_by(case_age, case_gender, hospitalized) %>%
-  summarise(num=n()) %>% 
-  mutate()
-
-  view(totals_age_gender_hospitalized)
-
-
 # number of hospitalized for each age, removing unknown data 
 
 age_vs_hospitalisation_data <- covid_data_age_gender_hospitalized_2 %>% 
@@ -96,19 +86,50 @@ age_gender_total_hosp <- merge(age_vs_hospitalisation_data, totals_age_gender, b
 
 view(age_gender_total_hosp)
 
+age_gender_total_hosp_child <- age_gender_total_hosp %>% 
+  filter(case_age <= 17) 
+
+view(age_gender_total_hosp_child)
+summary(age_gender_total_hosp_child)
+
+age_gender_total_hosp_adult <- age_gender_total_hosp %>% 
+  filter(case_age %in% (18:49)) 
+
+view(age_gender_total_hosp_adult)
+summary(age_gender_total_hosp_adult)
+
+
+age_gender_total_hosp_elderly <- age_gender_total_hosp %>% 
+  filter(case_age >= 50) 
+
+view(age_gender_total_hosp_elderly)
+summary(age_gender_total_hosp_elderly)
+
+
+
 # Creating Graph ----
 
 age_gender_total_hosp %>% 
   ggplot(aes(x = case_age, 
              y = percentage,
-             colour = case_gender))+
-  geom_smooth()+
+             colour = case_gender)) +
+  geom_point(size = 0.05) +
   labs(x = "Patient Age",
-       y = "% of Patients Hospitalised")
+       y = "% of Patients Hospitalised",
+       title= "Risk of Hospitalisation from Covid-19",
+       subtitle= "Percentage of patients hospitalised based on age and gender")+
+  theme_clean()
+
+
+
+# checking the factors of my data 
+glimpse(age_gender_total_hosp)
+
+
+
 
   # Options to add
   geom_smooth(method="lm") # line of best fit 
-
   coord_flip() # flips axis 
   
   
