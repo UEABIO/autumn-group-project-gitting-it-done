@@ -11,6 +11,7 @@ library(lubridate)
 library(plotly)
 library(here)
 library(ggthemes)
+library(dplyr)
 
 #creating objects
 
@@ -33,21 +34,25 @@ covid_died_vs_died_covid_by_race %>%
 
 glimpse(covid_died_vs_died_covid_by_race)
 
-# summarising the data
-covid_died_vs_died_covid_by_race %>% 
-  summarise(n=n(),
-            quanitity_died = sum(died_covid == "yes"),
+# changing chr to numerical values 
+covid_died_vs_died_covid_by_race$response_numeric <- as.numeric(factor(covid_died_vs_died_covid_by_race, levels = c("no", "yes")))
 
 
-# starting to create the graph  
-covid_data_no_duplicates %>% 
-  ggplot(aes(x=died, 
-             y = died_covid,
-             colour= ))+ 
-  geom_point()+
-  geom_smooth(method="lm",    
-              se=FALSE)+
-  labs(x = "Died",
-       y = "Died of covid",
-       title= "Died vs died of covid amoungst different races",
-       subtitle= "")
+# Using mutate to change the varibales 
+covid_died_vs_died_covid_by_race <- covid_died_vs_died_covid_by_race %>%
+  mutate(covid_binary = ifelse(died_covid == "yes", 1, 0))
+
+covid_died_vs_died_covid_by_race <- covid_died_vs_died_covid_by_race %>%
+  mutate(covid_binary = ifelse(died == "yes", 1, 0))
+
+covid_died_vs_died_covid_by_race$covid_binary <- factor(covid_died_vs_died_covid_by_race$covid_binary, levels = c("0", "1"))
+
+ggplot(covid_died_vs_died_covid_by_race, aes(x = case_race, fill = factor(covid_binary))) +
+  geom_bar(position = "stack", width = 0.7) +
+  labs(x = "Race", y = "Number of Deaths", fill = "Cause of Death") +
+  scale_fill_manual(values = c("0" = "blue", "1" = "red")) +
+  theme_minimal()
+
+
+
+
