@@ -36,6 +36,7 @@ covid_data_age_gender_time_hospital %>%
             hospital_duration = discharge-admission, 
             n=n())
 
+#removing
 covid_data_age_gender_time_hospital <- covid_data_age_gender_time_hospital %>% 
   filter(!case_gender == "Unknown") %>% 
   group_by(case_age, case_gender, hospital_admission_date, hospital_discharge_date)
