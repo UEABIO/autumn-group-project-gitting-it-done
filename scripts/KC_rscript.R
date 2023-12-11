@@ -11,48 +11,66 @@ library(lubridate)
 library(plotly)
 library(here)
 library(ggthemes)
-library(dplyr)
+library(forcats)
 
-#creating objects
+# creating a tidier data set using the variables I need 
+covid_data_died_vs_died_covid <- select(.data = covid_data_no_duplicates, 
+                                             case_race, died, died_covid)
 
-# Using the select function to only include certain variables ----
+covid_data_died_vs_died_covid <- arrange(.data = covid_data_died_vs_died_covid,
+                                              case_race,died, died_covid) 
 
-# creating the data set ----
+# I am doing to:
+# look at deaths in general compared to deaths specifically by covid, using race as the colour 
 
-head(covid_data_no_duplicates)
+# eliminating n/a data
 
-covid_died_vs_died_covid_by_race <- select(.data = covid_data_no_duplicates, 
-       died , died_covid, case_race) %>% 
-  view()
-
-# getting rid of the n/a values 
-covid_died_vs_died_covid_by_race <- drop_na(covid_died_vs_died_covid_by_race)
-
-covid_died_vs_died_covid_by_race %>% 
+# this tells me the sum of how many observations are missing from the entirety of the data frame 
+covid_data_died_vs_died_covid %>% 
   is.na() %>% 
   sum()
 
-glimpse(covid_died_vs_died_covid_by_race)
+# using the glimpse function to remove all of the n/a values 
+covid_data_died_vs_died_covid_2 <- drop_na(covid_data_died_vs_died_covid)
 
-# changing chr to numerical values 
-covid_died_vs_died_covid_by_race$response_numeric <- as.numeric(factor(covid_died_vs_died_covid_by_race, levels = c("no", "yes")))
+covid_data_died_vs_died_covid_2 %>% 
+  is.na() %>% 
+  sum()
 
+glimpse(covid_data_died_vs_died_covid_2)
 
-# Using mutate to change the varibales 
-covid_died_vs_died_covid_by_race <- covid_died_vs_died_covid_by_race %>%
-  mutate(covid_binary = ifelse(died_covid == "yes", 1, 0))
-
-covid_died_vs_died_covid_by_race <- covid_died_vs_died_covid_by_race %>%
-  mutate(covid_binary = ifelse(died == "yes", 1, 0))
-
-covid_died_vs_died_covid_by_race$covid_binary <- factor(covid_died_vs_died_covid_by_race$covid_binary, levels = c("0", "1"))
-
-ggplot(covid_died_vs_died_covid_by_race, aes(x = case_race, fill = factor(covid_binary))) +
-  geom_bar(position = "stack", width = 0.7) +
-  labs(x = "Race", y = "Number of Deaths", fill = "Cause of Death") +
-  scale_fill_manual(values = c("0" = "blue", "1" = "red")) +
-  theme_minimal()
+# removing unknown data from the data set 
+covid_data_died_vs_died_covid_2 <- subset(covid_data_died_vs_died_covid_2, !is.na(died) & trimws(died) != "Unknown")
+covid_data_died_vs_died_covid_2 <- subset(covid_data_died_vs_died_covid_2, !is.na(died_covid) & trimws(died_covid) != "Under Review")
 
 
+# Remove rows with "other", "unknown" and "under review" values in case_race
+covid_data_died_vs_died_covid_2 <- covid_data_died_vs_died_covid_2 %>%
+  filter(!(case_race %in% c("UNKNOWN", "OTHER", "UNDER REVIEW")))
+
+# Remove rows with "other", "unknown" and "under review" values in died
+covid_data_died_vs_died_covid_2 <- covid_data_died_vs_died_covid_2 %>%
+  filter(!(died %in% c("unknown", "other", "under review")))
+
+# Remove rows with "other", "unknown" and "under review" values in died_covid
+covid_data_died_vs_died_covid_2 <- covid_data_died_vs_died_covid_2 %>%
+  filter(!(died_covid %in% c("unknown", "other", "under review")))
 
 
+# USING THE UNIQUE FUNCTION TO CHECK THIS WORKED
+unique(covid_data_died_vs_died_covid_2$case_race)
+unique(covid_data_died_vs_died_covid_2$died)
+unique(covid_data_died_vs_died_covid_2$died_covid)
+
+# changing my yes/no responses to be numerical data 
+covid_data_died_vs_died_covid_2 <- covid_data_died_vs_died_covid_2 %>%
+  mutate(numeric_column_died = as_factor(died) %>% as.numeric())
+
+covid_data_died_vs_died_covid_2 <- covid_data_died_vs_died_covid_2 %>%
+  mutate(numeric_column_died_covid = as_factor(died_covid) %>% as.numeric())
+
+# Remove the 'numeric_column' as i added it by accident 
+print(colnames(covid_data_died_vs_died_covid_2))
+covid_data_died_vs_died_covid_2 <- covid_data_died_vs_died_covid_2 %>% select(-numeric_column)
+
+# Creating my graph 
