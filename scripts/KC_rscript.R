@@ -12,6 +12,7 @@ library(plotly)
 library(here)
 library(ggthemes)
 library(forcats)
+library(circlize)
 
 # creating a tidier data set using the variables I need 
 covid_data_died_vs_died_covid <- select(.data = covid_data_no_duplicates, 
@@ -43,7 +44,6 @@ glimpse(covid_data_died_vs_died_covid_2)
 covid_data_died_vs_died_covid_2 <- subset(covid_data_died_vs_died_covid_2, !is.na(died) & trimws(died) != "Unknown")
 covid_data_died_vs_died_covid_2 <- subset(covid_data_died_vs_died_covid_2, !is.na(died_covid) & trimws(died_covid) != "Under Review")
 
-
 # Remove rows with "other", "unknown" and "under review" values in case_race
 covid_data_died_vs_died_covid_2 <- covid_data_died_vs_died_covid_2 %>%
   filter(!(case_race %in% c("UNKNOWN", "OTHER", "UNDER REVIEW")))
@@ -62,15 +62,42 @@ unique(covid_data_died_vs_died_covid_2$case_race)
 unique(covid_data_died_vs_died_covid_2$died)
 unique(covid_data_died_vs_died_covid_2$died_covid)
 
-# changing my yes/no responses to be numerical data 
-covid_data_died_vs_died_covid_2 <- covid_data_died_vs_died_covid_2 %>%
-  mutate(numeric_column_died = as_factor(died) %>% as.numeric())
+# Sample dataset (replace this with your actual data)
+covid_data_died_vs_died_covid_2 <- data.frame(
+  case_race = rep(c("White", "Black", "Asian", "Hawaiian/Pacific Islander", "Indian/Alaska Native"), each = 20),
+  died = sample(c("Yes", "No"), 100, replace = TRUE),
+  died_covid = sample(c("Yes", "No"), 100, replace = TRUE)
+)
 
-covid_data_died_vs_died_covid_2 <- covid_data_died_vs_died_covid_2 %>%
-  mutate(numeric_column_died_covid = as_factor(died_covid) %>% as.numeric())
+# Convert "Yes" and "No" to 1 and 0
+covid_data_died_vs_died_covid_without_na <- covid_data_died_vs_died_covid_2 %>%
+  mutate(died = ifelse(died == "Yes", 1, 0),
+         died_covid = ifelse(died_covid == "Yes", 1, 0))
 
-# Remove the 'numeric_column' as i added it by accident 
-print(colnames(covid_data_died_vs_died_covid_2))
-covid_data_died_vs_died_covid_2 <- covid_data_died_vs_died_covid_2 %>% select(-numeric_column)
+# Summarize the data
+summary_data <- covid_data_died_vs_died_covid_2 %>%
+  group_by(case_race) %>%
+  summarise(total_deaths = sum(died),
+            covid_deaths = sum(died_covid))
 
-# Creating my graph 
+print(summary_data)
+
+  # STACKED BAR CHART ----
+  ggplot(covid_data_died_vs_died_covid_2, aes(x = case_race, fill = factor(died_covid))) +
+    geom_bar(position = "stack", stat = "count", alpha = 0.7, width = 0.9, color = "white") +
+    scale_fill_manual(values = c("palegreen3", "palevioletred"), name = "Died from COVID", labels = c("No", "Yes")) +
+    labs(title = "Mortality Patterns by Ethnicity: General Deaths vs Deaths Attributed to COVID",
+         subtitle = "Using a Stacked Bar Chart",
+         x = "Ethnicity",
+         y = "Count (Deaths)") +
+    theme_classic() +
+    theme(axis.text.x = element_text(angle = 20, hjust = 1, size = 8, family = "georgia"),
+          legend.position = "top",
+          legend.justification = "left",
+          text = element_text(family = "georgia")) +
+    guides(fill = guide_legend(title = "Died from COVID-19:")) +
+    geom_text(aes(label = ..count.., group = factor(died_covid)), stat = "count",
+              position = position_stack(vjust = 1.1), color = "black", size = 3,
+              box.background = element_rect(fill = "white", color = NA)) +
+    theme(legend.title = element_text(face = "italic", size = 8.5, color = "gray20"),
+          legend.text = element_text(face = "italic", size = 8.5, color = "gray20")) 
