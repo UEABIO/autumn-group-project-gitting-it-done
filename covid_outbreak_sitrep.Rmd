@@ -1,29 +1,58 @@
 ---
 title: "Covid Outbreak Situation Report"
 output: html_document
-date: "2023-11-20"
+date: "2023-12-11"
+df_print: paged
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r setup , include = FALSE}
+# GLOBAL KNITR OPTIONS ----
+knitr::opts_chunk$set(echo = TRUE,
+ fig.align = "center",
+ fig.width = 6,
+ fig.asp = 1,
+ out.width = "80%")
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r library}
+library(tidyverse)
+library(janitor)
+library(ggplot2)
+library(lubridate)
+library(plotly)
+library(here)
+library(ggthemes)
+library(kableExtra)
+library(gt)
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+# read data 
+source ("scripts/gitting_it_done_1.R")
+source("scripts/JC_rscript.R")
+#source("scripts/JR_rscript.R")
+#source("scripts/KC_rscript.R")
+#source("scripst/WC_rscript.R")
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r plot} 
+age_gender_total_hosp %>% 
+  ggplot() +
+  geom_rect(aes(xmin=0,xmax=18,ymin=-Inf,ymax=Inf),alpha= 0.2,fill= "lightsteelblue1")+
+  geom_rect(aes(xmin=18,xmax=50,ymin=-Inf,ymax=Inf),alpha=0.2, fill=  "honeydew2")+
+  geom_rect(aes(xmin=50,xmax=110,ymin=-Inf,ymax=Inf),alpha=0.2,fill= "mistyrose1")+
+  geom_point(aes(x = case_age, 
+                 y = percentage,
+                 colour = case_gender)) +
+  geom_label(data = my_labels, aes(x = case_age,
+                                   y = percentage,
+                                   label = label))+
+  labs(x = "Patient Age",
+       y = "% of Patients Hospitalised",
+       title= "Risk of Hospitalisation from Covid-19",
+       subtitle= "Percentage of patients hospitalised based on age and gender")+
+  theme_clean() 
+```
+
+
+

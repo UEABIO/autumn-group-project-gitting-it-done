@@ -4,7 +4,7 @@
 # I want to look at the relationship between age and rate of hospitalization
 # I want to create a visual which encompasses both factors and hospitalization 
 
-rm(list=ls())
+#rm(list=ls())
 
 #Setting up Script ----
 
@@ -145,7 +145,7 @@ glimpse(age_gender_total_hosp)
 
 
   # Options to add
-  geom_smooth(method="lm") # line of best fit 
-  coord_flip() # flips axis 
+  #geom_smooth(method="lm") # line of best fit 
+  #coord_flip() # flips axis 
   
   
