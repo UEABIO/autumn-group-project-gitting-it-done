@@ -1,9 +1,6 @@
-# what percentage of people died died of covid 
+# Mortality Patterns by Race: General Death vs Deaths Attributed by COVID-19 ----
 
-# Setting up script ----
-
-
-# loading packages 
+# loading the packages ----
 library(tidyverse)
 library(janitor)
 library(ggplot2)
@@ -14,19 +11,16 @@ library(ggthemes)
 library(forcats)
 library(circlize)
 
-# creating a tidier data set using the variables I need 
+# Tidying my data set ----
+# Creating a tidier data set using the variables I need  
 covid_data_died_vs_died_covid <- select(.data = covid_data_no_duplicates, 
                                              case_race, died, died_covid)
 
 covid_data_died_vs_died_covid <- arrange(.data = covid_data_died_vs_died_covid,
                                               case_race,died, died_covid) 
 
-# I am doing to:
-# look at deaths in general compared to deaths specifically by covid, using race as the colour 
 
-# eliminating n/a data
-
-# this tells me the sum of how many observations are missing from the entirety of the data frame 
+# This tells me the sum of how many observations are missing from the entirety of the data frame 
 covid_data_died_vs_died_covid %>% 
   is.na() %>% 
   sum()
@@ -62,14 +56,8 @@ unique(covid_data_died_vs_died_covid_2$case_race)
 unique(covid_data_died_vs_died_covid_2$died)
 unique(covid_data_died_vs_died_covid_2$died_covid)
 
-# Sample dataset (replace this with your actual data)
-covid_data_died_vs_died_covid_2 <- data.frame(
-  case_race = rep(c("White", "Black", "Asian", "Hawaiian/Pacific Islander", "Indian/Alaska Native"), each = 20),
-  died = sample(c("Yes", "No"), 100, replace = TRUE),
-  died_covid = sample(c("Yes", "No"), 100, replace = TRUE)
-)
 
-# Convert "Yes" and "No" to 1 and 0
+# Convert "Yes" and "No" to 1 and 0 ----
 covid_data_died_vs_died_covid_without_na <- covid_data_died_vs_died_covid_2 %>%
   mutate(died = ifelse(died == "Yes", 1, 0),
          died_covid = ifelse(died_covid == "Yes", 1, 0))
@@ -101,3 +89,5 @@ print(summary_data)
               box.background = element_rect(fill = "white", color = NA)) +
     theme(legend.title = element_text(face = "italic", size = 8.5, color = "gray20"),
           legend.text = element_text(face = "italic", size = 8.5, color = "gray20")) 
+
+ggsave
