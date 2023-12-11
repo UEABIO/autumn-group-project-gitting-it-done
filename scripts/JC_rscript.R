@@ -106,60 +106,36 @@ view(age_gender_total_hosp_elderly)
 summary(age_gender_total_hosp_elderly)
 
 
+# Creating a data set to add to graph so labels can be added in specific coordinates 
+case_age <- c(9,34,77,9, 34,77)
+percentage <- c(100,100,100,90,90,90)
+label <- c("3.05%", "5.57%", "38.71%","0-17 yrs","18-49 yrs", "50+ yrs ")
 
-# Creating Graph ----
-age_gender_total_hosp %>% 
-  ggplot(aes(x = case_age, 
-             y = percentage,
-             colour = case_gender)) +
-  geom_point() +
-  labs(x = "Patient Age",
-       y = "% of Patients Hospitalised",
-       title= "Risk of Hospitalisation from Covid-19",
-       subtitle= "Percentage of patients hospitalised based on age and gender")+
-  theme_clean()
+my_labels <- tibble(case_age, percentage, label)
 
 
-# with the colour blocks just need to alpha so it blends with background 
+# % Patients Hospitalised Figure by age and gender figure 
 age_gender_total_hosp %>% 
   ggplot() +
+  geom_rect(aes(xmin=0,xmax=18,ymin=-Inf,ymax=Inf),alpha= 0.2,fill= "lightsteelblue1")+
+  geom_rect(aes(xmin=18,xmax=50,ymin=-Inf,ymax=Inf),alpha=0.2, fill=  "honeydew2")+
+  geom_rect(aes(xmin=50,xmax=110,ymin=-Inf,ymax=Inf),alpha=0.2,fill= "mistyrose1")+
   geom_point(aes(x = case_age, 
                  y = percentage,
                  colour = case_gender)) +
-  geom_rect(aes(xmin=0,xmax=18,ymin=-Inf,ymax=Inf),alpha=4,fill= "lightsteelblue1")+
-  geom_rect(aes(xmin=18,xmax=50,ymin=-Inf,ymax=Inf),alpha=4,fill="honeydew2")+
-  geom_rect(aes(xmin=50,xmax=Inf,ymin=-Inf,ymax=Inf),alpha=4,fill="mistyrose1")+
+  geom_label(data = my_labels, aes(x = case_age,
+                                   y = percentage,
+                                   label = label))+
   labs(x = "Patient Age",
        y = "% of Patients Hospitalised",
        title= "Risk of Hospitalisation from Covid-19",
        subtitle= "Percentage of patients hospitalised based on age and gender")+
-  theme_clean()
-
-# playing around to make this graph work 
-age_gender_total_hosp %>% 
-  ggplot() +
-  geom_point(aes(x = case_age, 
-                 y = percentage,
-                 colour = case_gender)) +
-  geom_rect(aes(xmin=0,xmax=18,ymin=-Inf,ymax=Inf),alpha= 0.02,fill= "lightsteelblue1")+
-  geom_rect(aes(xmin=18,xmax=50,ymin=-Inf,ymax=Inf),alpha=0.02, fill=  "honeydew2")+
-  geom_rect(aes(xmin=50,xmax=Inf,ymin=-Inf,ymax=Inf),alpha=0.02,fill= "mistyrose1")+
-  labs(x = "Patient Age",
-       y = "% of Patients Hospitalised",
-       title= "Risk of Hospitalisation from Covid-19",
-       subtitle= "Percentage of patients hospitalised based on age and gender")+
-  theme_clean()
+  theme_clean() 
 
 
 
-# code to add label in the style that i want, need to add them to the colour blocks 
-geom_label(aes(label = c("3.0482", "5.5720", "38.713" )), 
-           nudge_x = -2,
-           fill = "white",
-           fontface = "bold",
-           family = "Fira Sans")
-
-
+# need a better background colour scheme 
+# need a legend to support 
 
 
 # checking the factors of my data 
