@@ -2,6 +2,16 @@
 # Jasper Raistrick Data Visualisation ----
 
 
+#PACKAGES
+
+library(tidyverse)
+library(janitor)
+library(ggplot2)
+library(lubridate)
+library(plotly)
+library(here)
+library(ggthemes)
+
 # What are the most common covid symptoms recorded? ----
 #_________________----
 
@@ -20,7 +30,12 @@ symptoms_yes_data <- covid_symptoms_data %>%
                             filter(sym_fever == "Yes", sym_subjfever == "Yes", 
                             sym_myalgia == "Yes", sym_loss_taste_smell == "Yes",
                             sym_sorethroat == "Yes", sym_cough == "Yes",
-                            sym_headache == "Yes") 
+                            sym_headache == "Yes") #+ group_by 
+
+#This ^ is filtering everything... 
+# Advised: Use group by and count  functions and summarise
+
+
 
 sym_fever_yes <- covid_symptoms_data %>%
   filter(sym_fever == "Yes") %>% 
