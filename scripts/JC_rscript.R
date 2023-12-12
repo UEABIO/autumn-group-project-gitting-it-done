@@ -46,8 +46,7 @@ covid_data_age_gender_hospitalized_2 %>%
   is.na() %>% 
   sum()
 
-glimpse(covid_data_age_gender_hospitalized_2)
-
+# glimpse(covid_data_age_gender_hospitalized_2)
 
 # Exploring values - 
 
@@ -68,8 +67,6 @@ totals_age_gender <- covid_data_age_gender_hospitalized_2 %>%
   group_by(case_age, case_gender) %>% 
   summarise(num=n()) 
   
-  view(totals_age_gender)
-
 # number of hospitalized for each age, removing unknown data 
 
 age_vs_hospitalisation_data <- covid_data_age_gender_hospitalized_2 %>% 
@@ -77,34 +74,21 @@ age_vs_hospitalisation_data <- covid_data_age_gender_hospitalized_2 %>%
   filter(hospitalized == "Yes", !case_gender == "Unknown") %>% 
   summarise(n = n())
   
-view(age_vs_hospitalisation_data)
 
 # creating a data set with percentage hospitalised from age and gender 
 
 age_gender_total_hosp <- merge(age_vs_hospitalisation_data, totals_age_gender, by=c("case_age","case_gender")) %>% 
   mutate(percentage = (n/num)*100)
 
-view(age_gender_total_hosp)
-
+# separating the data into age brackets to look at summary to find average hospitalization rates for those age ranges  
 age_gender_total_hosp_child <- age_gender_total_hosp %>% 
   filter(case_age <= 17) 
-
-view(age_gender_total_hosp_child)
-summary(age_gender_total_hosp_child)
 
 age_gender_total_hosp_adult <- age_gender_total_hosp %>% 
   filter(case_age %in% (18:49)) 
 
-view(age_gender_total_hosp_adult)
-summary(age_gender_total_hosp_adult)
-
-
 age_gender_total_hosp_elderly <- age_gender_total_hosp %>% 
   filter(case_age >= 50) 
-
-view(age_gender_total_hosp_elderly)
-summary(age_gender_total_hosp_elderly)
-
 
 # Creating a data set to add to graph so labels can be added in specific coordinates 
 case_age <- c(9,34,77,9, 34,77)
@@ -130,22 +114,12 @@ age_gender_total_hosp %>%
        y = "% of Patients Hospitalised",
        title= "Risk of Hospitalisation from Covid-19",
        subtitle= "Percentage of patients hospitalised based on age and gender")+
-  theme_clean() 
-
+  theme_classic() 
 
 
 # need a better background colour scheme 
-# need a legend to support 
-
+# need a legend to support percentage 
+#geom_smooth(method="lm") # line of best fit 
 
 # checking the factors of my data 
-glimpse(age_gender_total_hosp)
-
-
-
-
-  # Options to add
-  #geom_smooth(method="lm") # line of best fit 
-  #coord_flip() # flips axis 
-  
-  
+#glimpse(age_gender_total_hosp)

@@ -1,5 +1,5 @@
 #Clearing Environment at start of session
-#rm(list=ls())
+rm(list=ls())
 
 
 #Setting up RScript ----
@@ -65,7 +65,7 @@ covid_data_date_correct %>%
   filter(n()>1)
 
 # creating a data set without case_zip 
-# Data set without case_zip ----
+# Data no case_zip ----
 covid_data_clean <- covid_data_date_correct %>% 
 select(-case_zip)
 
@@ -74,7 +74,7 @@ covid_data_clean %>%
   duplicated() %>% 
   sum() 
 
-# Data set without duplicates ----
+# Data no duplicates ----
 covid_data_no_duplicates <- covid_data_clean[!duplicated(covid_data_clean), ]
 
 # check for duplicate rows in new data, = 0 so no more duplicates 
