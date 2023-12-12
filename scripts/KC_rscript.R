@@ -70,26 +70,25 @@ summary_data <- covid_data_died_vs_died_covid_2 %>%
 
 print(summary_data)
 
-  # STACKED BAR CHART ----
-desired_order <- c("Black", "White", "Asian", "American Indian/ Alaska Native", "Native Hawaiian/Pacific Islander")
-
+# Creating a grouped bar chart ----
   ggplot(covid_data_died_vs_died_covid_2, aes(x = case_race, fill = factor(died_covid))) +
-    geom_bar(position = "stack", stat = "count", alpha = 0.7, width = 0.9, color = "white") +
-    scale_fill_manual(values = c("palegreen3", "palevioletred"), name = "Died from COVID", labels = c("No", "Yes")) +
-    labs(title = "Mortality Patterns by Race: General Deaths vs Deaths Attributed to COVID",
-         subtitle = "Using a Stacked Bar Chart",
+    geom_bar(position = "dodge", stat = "count", alpha = 0.7, width = 0.7, color = "white") +
+    scale_fill_manual(values = c("palegreen3", "palevioletred3"), name = "Died from COVID-19:", labels = c("No", "Yes")) +
+    labs(title = "Mortality Patterns by Race: All Deaths vs Deaths Attributed to COVID-19",
+         subtitle = "Using a Grouped Bar Chart",
          x = "Race",
          y = "Count (Deaths)") +
-    theme_clean() +
-    theme(axis.text.x = element_text(angle = 20, hjust = 1, size = 8, family = "georgia"),
+    theme_classic() +
+    theme(axis.text.x = element_text(angle = 25, hjust = 1, size = 8, family = "georgia"),
           legend.position = "top",
           legend.justification = "left",
           text = element_text(family = "georgia")) +
-    guides(fill = guide_legend(title = "Died from COVID-19:")) +
-    geom_text(aes(label = ..count.., group = factor(died_covid)), stat = "count",
-              position = position_stack(vjust = 1.1), color = "black", size = 3,
+    geom_text(aes(label = ..count.., group = factor(died_covid), color = factor(died_covid)), stat = "count",
+              position = position_dodge(width = 0.7), vjust = -0.5, size = 3,
               box.background = element_rect(fill = "white", color = NA)) +
+    scale_color_manual(values = c("palegreen4", "palevioletred4")) +
     theme(legend.title = element_text(face = "italic", size = 8.5, color = "gray20"),
-          legend.text = element_text(face = "italic", size = 8.5, color = "gray20")) 
+          legend.text = element_text(face = "italic", size = 8.5, color = "gray20")) +
+    guides(color = "none")  + # Specify no legend for the color aesthetic
 
-ggsave
+ggsave("KC_mortality_patterns_by_race.png", width = 10, height = 6, units = "in")
