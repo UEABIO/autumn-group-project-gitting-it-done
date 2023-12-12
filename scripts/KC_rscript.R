@@ -89,7 +89,7 @@ ggplot(covid_data_died_vs_died_covid_2, aes(x = case_race, fill = factor(died_co
   theme(axis.text.x = element_text(angle = 25, hjust = 1, size = 8, family = "georgia"),
         legend.position = "top",
         legend.justification = "left",
-        text = element_text(family = "georgia", face = "bold")) +  # Set face = "bold" for bold text
+        text = element_text(family = "arial", face = "bold")) +  # Set face = "bold" for bold text
   geom_text(aes(label = ..count.., group = factor(died_covid), color = factor(died_covid)), stat = "count",
             position = position_dodge(width = 0.7), vjust = -0.5, size = 3) +
   scale_color_manual(values = c("palegreen4", "palevioletred4")) +
