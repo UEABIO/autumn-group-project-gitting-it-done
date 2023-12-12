@@ -10,7 +10,7 @@ df_print: paged
 # GLOBAL KNITR OPTIONS ----
 knitr::opts_chunk$set(echo = TRUE,
  fig.align = "center",
- fig.width = 6,
+ fig.width = 10,
  fig.asp = 1,
  out.width = "80%")
 ```

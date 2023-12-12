@@ -1,5 +1,5 @@
 #Clearing Environment at start of session
-#rm(list=ls())
+rm(list=ls())
 
 
 #Setting up RScript ----
