@@ -53,13 +53,20 @@ covid_data_age_gender_time_hospital <- covid_data_age_gender_time_hospital %>%
   filter(hospital_duration >= 0,
          hospital_duration <= 500)
 
-ggplot(covid_data_age_gender_time_hospital, aes(x = case_age,
-                                                      y = hospital_duration)) +
+ggplot(covid_data_age_gender_time_hospital, 
+       aes(x = case_age,
+           y = hospital_duration)) +
   geom_point(aes(colour = case_gender),
                  alpha = 0.3) +
+  geom_smooth(method = "lm", se = FALSE, color = "black", linetype = "solid") +
   labs(title = "A Scatter of Age and Gender vs Time Spent in Hospital",
        x = "Age",
-       y = "Hospital Duration (days)") 
+       y = "Hospital Duration (days)",
+       colour = "Gender") +
+  theme_clean() +
+  geom_rect(aes(xmin=0,xmax=18,ymin=-Inf,ymax=Inf),alpha= 0.05,fill= "lightsteelblue1")+
+  geom_rect(aes(xmin=18,xmax=50,ymin=-Inf,ymax=Inf),alpha=0.05, fill=  "honeydew2")+
+  geom_rect(aes(xmin=50,xmax=110,ymin=-Inf,ymax=Inf),alpha=0.05,fill= "mistyrose1")
 
 view(covid_data_age_gender_time_hospital)
 
