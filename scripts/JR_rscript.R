@@ -72,14 +72,25 @@ long_symptoms_data_clean <- covid_symptoms_data_clean %>%
 
 # Removing NA values from new Symptoms column
 
-long_symptoms_data_clean %>% 
+long_symptoms_data_clean <- long_symptoms_data_clean %>% 
   drop_na(Symptoms) %>% 
   filter(Symptoms != "NA") 
  
 
+# Plotting inital bar chart
+
+long_symptoms_data_clean %>% 
+  ggplot(aes(y = Symptoms)) +
+  geom_bar() +
+  theme_minimal()
 
 
+df2_long <- long_symptoms_data_clean %>% group_by(Symptoms) %>%   mutate(count_name_occurr = n())
 
+
+g2<-ggplot(data=df2_long, aes(y =reorder(Symptoms,-count_name_occurr,))) +
+  geom_bar(stat="count")
+g2
 
 
 
