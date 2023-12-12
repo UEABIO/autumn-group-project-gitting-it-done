@@ -92,7 +92,7 @@ age_gender_total_hosp_elderly <- age_gender_total_hosp %>%
 
 # Creating a data set to add to graph so labels can be added in specific coordinates 
 case_age <- c(9,34,77,9, 34,77)
-percentage <- c(100,100,100,90,90,90)
+percentage <- c(95,95,95,88,88,88)
 label <- c("3.05%", "5.57%", "38.71%","0-17 yrs","18-49 yrs", "50+ yrs ")
 
 my_labels <- tibble(case_age, percentage, label)
@@ -101,12 +101,19 @@ my_labels <- tibble(case_age, percentage, label)
 # % Patients Hospitalised Figure by age and gender figure 
 age_gender_total_hosp %>% 
   ggplot() +
-  geom_rect(aes(xmin=0,xmax=18,ymin=-Inf,ymax=Inf),alpha= 0.2,fill= "lightsteelblue1")+
-  geom_rect(aes(xmin=18,xmax=50,ymin=-Inf,ymax=Inf),alpha=0.2, fill=  "honeydew2")+
-  geom_rect(aes(xmin=50,xmax=110,ymin=-Inf,ymax=Inf),alpha=0.2,fill= "mistyrose1")+
+  scale_x_continuous(expand = c(0, 0), limits = c(0, NA)) + 
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 105))+
+  geom_rect(aes(xmin=0,xmax=18,ymin=-Inf,ymax=Inf),alpha= 0.2,fill= "gray90")+
+  geom_rect(aes(xmin=18,xmax=50,ymin=-Inf,ymax=Inf),alpha=0.2, fill=  "gray80")+
+  geom_rect(aes(xmin=50,xmax=110,ymin=-Inf,ymax=Inf),alpha=10,fill= "gray60")+
   geom_point(aes(x = case_age, 
                  y = percentage,
-                 colour = case_gender)) +
+                 colour = case_gender))+ 
+  scale_color_manual(values=c("tomato2","deepskyblue3"), name = "Case Gender")+
+  geom_hline(yintercept = 50,
+             linetype = "dashed",
+             color = "black",
+             lwd = 0.5)+
   geom_label(data = my_labels, aes(x = case_age,
                                    y = percentage,
                                    label = label))+
@@ -116,10 +123,11 @@ age_gender_total_hosp %>%
        subtitle= "Percentage of patients hospitalised based on age and gender")+
   theme_classic() 
 
-
+#change text 
 # need a better background colour scheme 
 # need a legend to support percentage 
 #geom_smooth(method="lm") # line of best fit 
+# adding in percentage figure 
 
 # checking the factors of my data 
 #glimpse(age_gender_total_hosp)
