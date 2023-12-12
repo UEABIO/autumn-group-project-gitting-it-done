@@ -1,5 +1,5 @@
 #Clearing Environment at start of session
-rm(list=ls())
+#rm(list=ls())
 
 
 #Setting up RScript ----
@@ -49,9 +49,9 @@ covid_data_date_correct <- covid_data %>%
   mutate(positive_pcr_date = lubridate :: dmy(positive_pcr_date))
 
 # checking for any missing values 
-covid_data_date_correct %>% 
-  is.na() %>% 
-  sum()
+#covid_data_date_correct %>% 
+  #is.na() %>% 
+  #sum()
 
 # Removing Duplicated Data ----
 # checking for duplicated rows in the data and removing the duplicated data sets 
@@ -70,15 +70,15 @@ covid_data_clean <- covid_data_date_correct %>%
 select(-case_zip)
 
 # check for duplicate rows in new data
-covid_data_clean %>% 
-  duplicated() %>% 
-  sum() 
+#covid_data_clean %>% 
+  #duplicated() %>% 
+  #sum() 
 
 # Data no duplicates ----
 covid_data_no_duplicates <- covid_data_clean[!duplicated(covid_data_clean), ]
 
 # check for duplicate rows in new data, = 0 so no more duplicates 
-covid_data_no_duplicates %>% 
-  duplicated() %>% 
-  sum() 
+#covid_data_no_duplicates %>% 
+  #duplicated() %>% 
+  #sum() 
 

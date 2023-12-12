@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE,
  out.width = "80%")
 ```
 
-```{r library}
+```{r library, include = FALSE}
 library(tidyverse)
 library(janitor)
 library(ggplot2)
@@ -26,24 +26,29 @@ library(kableExtra)
 library(gt)
 ```
 
-```{r}
+```{r read data}
 # read data 
 source ("scripts/gitting_it_done_1.R")
 source("scripts/JC_rscript.R")
-#source("scripts/JR_rscript.R")
-#source("scripts/KC_rscript.R")
-#source("scripst/WC_rscript.R")
 ```
 
-```{r plot} 
-age_gender_total_hosp %>% 
+```{r, include = TRUE, echo = FALSE, message = FALSE, warning = FALSE}
+
+plot <- age_gender_total_hosp %>% 
   ggplot() +
-  geom_rect(aes(xmin=0,xmax=18,ymin=-Inf,ymax=Inf),alpha= 0.2,fill= "lightsteelblue1")+
-  geom_rect(aes(xmin=18,xmax=50,ymin=-Inf,ymax=Inf),alpha=0.2, fill=  "honeydew2")+
-  geom_rect(aes(xmin=50,xmax=110,ymin=-Inf,ymax=Inf),alpha=0.2,fill= "mistyrose1")+
+  scale_x_continuous(expand = c(0, 0), limits = c(0, NA)) + 
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 105))+
+  geom_rect(aes(xmin=0,xmax=18,ymin=-Inf,ymax=Inf),alpha= 0.2,fill= "gray90")+
+  geom_rect(aes(xmin=18,xmax=50,ymin=-Inf,ymax=Inf),alpha=0.2, fill=  "gray80")+
+  geom_rect(aes(xmin=50,xmax=110,ymin=-Inf,ymax=Inf),alpha=10,fill= "gray60")+
   geom_point(aes(x = case_age, 
                  y = percentage,
-                 colour = case_gender)) +
+                 colour = case_gender))+ 
+  scale_color_manual(values=c("tomato2","deepskyblue3"), name = "Case Gender")+
+  geom_hline(yintercept = 50,
+             linetype = "dashed",
+             color = "black",
+             lwd = 0.5)+
   geom_label(data = my_labels, aes(x = case_age,
                                    y = percentage,
                                    label = label))+
@@ -51,7 +56,8 @@ age_gender_total_hosp %>%
        y = "% of Patients Hospitalised",
        title= "Risk of Hospitalisation from Covid-19",
        subtitle= "Percentage of patients hospitalised based on age and gender")+
-  theme_clean() 
+  theme_classic() 
+plot
 ```
 
 
