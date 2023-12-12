@@ -71,14 +71,16 @@ summary_data <- covid_data_died_vs_died_covid_2 %>%
 print(summary_data)
 
   # STACKED BAR CHART ----
+desired_order <- c("Black", "White", "Asian", "American Indian/ Alaska Native", "Native Hawaiian/Pacific Islander")
+
   ggplot(covid_data_died_vs_died_covid_2, aes(x = case_race, fill = factor(died_covid))) +
     geom_bar(position = "stack", stat = "count", alpha = 0.7, width = 0.9, color = "white") +
     scale_fill_manual(values = c("palegreen3", "palevioletred"), name = "Died from COVID", labels = c("No", "Yes")) +
-    labs(title = "Mortality Patterns by Ethnicity: General Deaths vs Deaths Attributed to COVID",
+    labs(title = "Mortality Patterns by Race: General Deaths vs Deaths Attributed to COVID",
          subtitle = "Using a Stacked Bar Chart",
-         x = "Ethnicity",
+         x = "Race",
          y = "Count (Deaths)") +
-    theme_classic() +
+    theme_clean() +
     theme(axis.text.x = element_text(angle = 20, hjust = 1, size = 8, family = "georgia"),
           legend.position = "top",
           legend.justification = "left",
