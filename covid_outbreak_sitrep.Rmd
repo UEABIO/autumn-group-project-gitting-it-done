@@ -1,5 +1,6 @@
 ---
 title: "Covid Outbreak Situation Report"
+author: "Jessica Cunliffe"
 output: html_document
 date: "2023-12-11"
 df_print: paged
@@ -26,38 +27,17 @@ library(kableExtra)
 library(gt)
 ```
 
-```{r read data}
+```{r read data, include = FALSE}
 # read data 
 source ("scripts/gitting_it_done_1.R")
 source("scripts/JC_rscript.R")
 ```
 
+#### Heading level 4
 ```{r, include = TRUE, echo = FALSE, message = FALSE, warning = FALSE}
 
-plot <- age_gender_total_hosp %>% 
-  ggplot() +
-  scale_x_continuous(expand = c(0, 0), limits = c(0, NA)) + 
-  scale_y_continuous(expand = c(0, 0), limits = c(0, 105))+
-  geom_rect(aes(xmin=0,xmax=18,ymin=-Inf,ymax=Inf),alpha= 0.2,fill= "gray90")+
-  geom_rect(aes(xmin=18,xmax=50,ymin=-Inf,ymax=Inf),alpha=0.2, fill=  "gray80")+
-  geom_rect(aes(xmin=50,xmax=110,ymin=-Inf,ymax=Inf),alpha=10,fill= "gray60")+
-  geom_point(aes(x = case_age, 
-                 y = percentage,
-                 colour = case_gender))+ 
-  scale_color_manual(values=c("tomato2","deepskyblue3"), name = "Case Gender")+
-  geom_hline(yintercept = 50,
-             linetype = "dashed",
-             color = "black",
-             lwd = 0.5)+
-  geom_label(data = my_labels, aes(x = case_age,
-                                   y = percentage,
-                                   label = label))+
-  labs(x = "Patient Age",
-       y = "% of Patients Hospitalised",
-       title= "Risk of Hospitalisation from Covid-19",
-       subtitle= "Percentage of patients hospitalised based on age and gender")+
-  theme_classic() 
-plot
+risk_of_hospitalisation_plot
+
 ```
 
 
