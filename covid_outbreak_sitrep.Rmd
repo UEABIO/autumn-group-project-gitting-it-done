@@ -10,7 +10,7 @@ df_print: paged
 # GLOBAL KNITR OPTIONS ----
 knitr::opts_chunk$set(echo = TRUE,
  fig.align = "center",
- fig.width = 10,
+ fig.width = 9,
  fig.asp = 1,
  out.width = "80%")
 ```
@@ -33,7 +33,6 @@ source ("scripts/gitting_it_done_1.R")
 source("scripts/JC_rscript.R")
 ```
 
-#### Heading level 4
 ```{r, include = TRUE, echo = FALSE, message = FALSE, warning = FALSE}
 
 risk_of_hospitalisation_plot

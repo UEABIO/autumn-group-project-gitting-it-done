@@ -130,11 +130,12 @@ risk_of_hospitalisation_plot <- age_gender_total_hosp %>%
        subtitle= "Percentage of patients hospitalised based on age and gender",
        caption = "Figure 1. A scatter graph showing an increased risk of hospitalisation from Covid-19 is correlated with an increase in age. 
 The arrow indicates risk is greater for those over the age of 50.
-The colour blocks break the graph into age categories: 0-17, 18-49 and 50+ and show the average percentage of patients hopsitalised in that age category. 
+The colour blocks break the graph into age categories: 0-17, 18-49 and 50+ and show the average percentage of patients hopsitalised in that age category.
+Dashed line at 50% to indicate the ages (data points above this line) where over half of confirmed covid patients were hospitalised.  
 The graph also shows that males are at a slightly higher risk of hospitalisation than females.")+
   theme(plot.title = element_text(hjust = 0.5, size = 15),
         plot.subtitle = element_text(hjust = 0.5, size = 10),
-        plot.caption = element_text(hjust = 0, size = 7.5))
+        plot.caption = element_text(hjust = 0, size = 8))
   
   
 #text(x = 28,y = 52, label = "Higher risk of hospitalisation past age 50")
