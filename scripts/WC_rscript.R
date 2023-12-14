@@ -87,10 +87,16 @@ time_spent_in_hospital_graph <- ggplot(combined_data, aes(x = Age_Group, y = hos
   labs(title = "Time Spent in Hospital for Different Age Groups",
        subtitle = "A violin boxplot showing the time that different age groups spent in hospital",
        x = "Age Group",
-       y = "Hospital Duration (days)") +
-  theme_minimal()
-
-print(time_)
+       y = "Hospital Duration (days)",
+       caption = "Figure 2. A violin boxplot showing an increased duration of time spent in hospital correlates with an increase in age.
+       There are large annomalies for each age group which are separate from the other data.
+       People aged 61-80 are most likely to spend the most time in hospital and people aged 0-20 are most likely to spend the least time in hospital.") +
+  theme_minimal()+
+  theme(plot.title = element_text(hjust = 0.5, size = 15),
+        plot.subtitle = element_text(hjust = 0.5, size = 10),
+        plot.caption = element_text(hjust = 0, size = 8))
+  
+print(time_spent_in_hospital_graph)
 
 view(age_gender_time_hospital_0_20 )
 mean(age_gender_time_hospital_0_20,
