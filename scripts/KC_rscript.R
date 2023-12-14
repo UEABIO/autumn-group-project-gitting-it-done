@@ -39,12 +39,13 @@ unique(covid_data_race_and_sym_numeric$case_race)
 unique(covid_data_race_and_sym_numeric$case_age)
 
 # Creating a box plot exploring case and age 
-ggplot(covid_data_race_and_sym_numeric, aes(x = case_race, y = case_age, fill = case_race)) +
+age_and_race_boxplot_KC <- ggplot(covid_data_race_and_sym_numeric, aes(x = case_race, y = case_age, fill = case_race)) +
   geom_boxplot(outlier.shape = 16, alpha = 0.7, position = position_dodge(width = 0.8)) +
   stat_ellipse(aes(color = case_race), type = "norm", level = 0.95, position = position_dodge(width = 0.8)) +
   scale_fill_manual(values = c("mediumpurple", "paleturquoise", "seagreen2", "lightgoldenrod1", "lightpink")) +
-  labs(title = "Box plot to show age and race",
+  labs(title = "Figure 3. Box plot to show age and race",
        subtitle = "Graphically demonstarting the distribution of age and race",
+       caption = "Figure 3. A boxplot to demonstrate the relationshiop between age and race in the Covid Outbreak data set. The box plot shows the minimum, maximum, medium age as well as the upper and lower quartile.",
        x = "Race",
        y = "Age") +
   theme_minimal() +
