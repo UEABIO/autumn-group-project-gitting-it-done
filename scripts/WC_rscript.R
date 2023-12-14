@@ -53,21 +53,61 @@ covid_data_age_gender_time_hospital <- covid_data_age_gender_time_hospital %>%
   filter(hospital_duration >= 0,
          hospital_duration <= 500)
 
-ggplot(covid_data_age_gender_time_hospital, 
-       aes(x = case_age,
-           y = hospital_duration)) +
-  geom_point(aes(colour = case_gender),
-                 alpha = 0.3) +
-  geom_smooth(method = "lm", se = FALSE, color = "black", linetype = "solid") +
-  labs(title = "A Scatter of Age and Gender vs Time Spent in Hospital",
-       x = "Age",
-       y = "Hospital Duration (days)",
-       colour = "Gender") +
-  theme_clean() +
-  geom_rect(aes(xmin=0,xmax=18,ymin=-Inf,ymax=Inf),alpha= 0.05,fill= "lightsteelblue1")+
-  geom_rect(aes(xmin=18,xmax=50,ymin=-Inf,ymax=Inf),alpha=0.05, fill=  "honeydew2")+
-  geom_rect(aes(xmin=50,xmax=110,ymin=-Inf,ymax=Inf),alpha=0.05,fill= "mistyrose1")
 
-view(covid_data_age_gender_time_hospital)
+glimpse(covid_data_age_gender_time_hospital)
 
+age_gender_time_hospital_0_20 <- covid_data_age_gender_time_hospital %>%
+  filter(case_age <=20)
+
+age_gender_time_hospital_21_40 <- covid_data_age_gender_time_hospital %>%
+  filter(case_age %in% (21:40))
+
+age_gender_time_hospital_41_60 <- covid_data_age_gender_time_hospital %>%
+  filter(case_age %in% (41:60))
+
+age_gender_time_hospital_61_80 <- covid_data_age_gender_time_hospital %>%
+  filter(case_age %in% (61:80))
+
+age_gender_time_hospital_81_above <- covid_data_age_gender_time_hospital %>%
+  filter(case_age >=81)
+
+
+#try merge function for all new data set age groups
+
+combined_data <- bind_rows(
+  mutate(age_gender_time_hospital_0_20, Age_Group = "0-20"),
+  mutate(age_gender_time_hospital_21_40, Age_Group = "21-40"),
+  mutate(age_gender_time_hospital_41_60, Age_Group = "41-60"),
+  mutate(age_gender_time_hospital_61_80, Age_Group = "61-80"),
+  mutate(age_gender_time_hospital_81_above, Age_Group = "81 and above"))
+
+time_spent_in_hospital_graph <- ggplot(combined_data, aes(x = Age_Group, y = hospital_duration, fill = Age_Group)) +
+  geom_violin(trim = FALSE, scale = "width", width = 1) +
+  geom_boxplot(width = 0.1, position = position_dodge(0.8), alpha = 0.7) +
+  labs(title = "Time Spent in Hospital for Different Age Groups",
+       subtitle = "A violin boxplot showing the time that different age groups spent in hospital",
+       x = "Age Group",
+       y = "Hospital Duration (days)") +
+  theme_minimal()
+
+print(time_)
+
+view(age_gender_time_hospital_0_20 )
+mean(age_gender_time_hospital_0_20,
+     hospital_duration)
+
+mean_duration_0_20 <- colMeans(age_gender_time_hospital_0_20["hospital_duration"])
+
+print(mean_duration_0_20)
+
+                                          
+mean_value_0_20 <- mean(age_gender_time_hospital_0_20$hospital_duration)
+
+mean_value_21_40 <- mean(age_gender_time_hospital_21_40$hospital_duration)
+
+mean_value_41_60 <- mean(age_gender_time_hospital_41_60$hospital_duration)
+
+mean_value_61_80 <- mean(age_gender_time_hospital_61_80$hospital_duration)
+
+mean_value_81_above <- mean(age_gender_time_hospital_81_above$hospital_duration)
 

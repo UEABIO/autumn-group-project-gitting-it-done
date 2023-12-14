@@ -35,16 +35,16 @@ covid_data_age_gender_hospitalized <- arrange(.data = covid_data_age_gender_hosp
 # Managing the NA values ---- 
 
 # Get a sum of how many observations are missing in our dataframe
-covid_data_age_gender_hospitalized %>% 
-  is.na() %>% 
-  sum()
+#covid_data_age_gender_hospitalized %>% 
+ # is.na() %>% 
+  #sum()
 
 # Removing all NA values 
 covid_data_age_gender_hospitalized_2 <- drop_na(covid_data_age_gender_hospitalized)
 
-covid_data_age_gender_hospitalized_2 %>% 
-  is.na() %>% 
-  sum()
+#covid_data_age_gender_hospitalized_2 %>% 
+ # is.na() %>% 
+  #sum()
 
 # glimpse(covid_data_age_gender_hospitalized_2)
 
@@ -65,20 +65,23 @@ covid_data_age_gender_hospitalized_2 %>%
 # Totals of each gender of each age 
 totals_age_gender <- covid_data_age_gender_hospitalized_2 %>% 
   group_by(case_age, case_gender) %>% 
-  summarise(num=n()) 
+  summarise(num=n())
   
 # number of hospitalized for each age, removing unknown data 
 
 age_vs_hospitalisation_data <- covid_data_age_gender_hospitalized_2 %>% 
   group_by(case_age, case_gender) %>% 
   filter(hospitalized == "Yes", !case_gender == "Unknown") %>% 
-  summarise(n = n())
+  summarise(n = n()) 
   
 
 # creating a data set with percentage hospitalised from age and gender 
 
 age_gender_total_hosp <- merge(age_vs_hospitalisation_data, totals_age_gender, by=c("case_age","case_gender")) %>% 
-  mutate(percentage = (n/num)*100)
+  mutate(percentage = (n/num)*100) 
+
+# checking the factors of my data 
+#glimpse(age_gender_total_hosp)
 
 # separating the data into age brackets to look at summary to find average hospitalization rates for those age ranges  
 age_gender_total_hosp_child <- age_gender_total_hosp %>% 
@@ -91,35 +94,48 @@ age_gender_total_hosp_elderly <- age_gender_total_hosp %>%
   filter(case_age >= 50) 
 
 # Creating a data set to add to graph so labels can be added in specific coordinates 
-case_age <- c(9,34,77,9, 34,77)
-percentage <- c(100,100,100,90,90,90)
-label <- c("3.05%", "5.57%", "38.71%","0-17 yrs","18-49 yrs", "50+ yrs ")
+case_age <- c(9,34,80,9, 34,80)
+percentage <- c(88,88,88,95,95,95)
+label <- c("3.05% avg", "5.57% avg.", "38.71% avg.","0-17 yrs.","18-49 yrs", "50+ yrs")
 
-my_labels <- tibble(case_age, percentage, label)
+my_labels <- tibble(case_age, percentage, label) 
 
 
 # % Patients Hospitalised Figure by age and gender figure 
-age_gender_total_hosp %>% 
+risk_of_hospitalisation_plot <- age_gender_total_hosp %>% 
   ggplot() +
-  geom_rect(aes(xmin=0,xmax=18,ymin=-Inf,ymax=Inf),alpha= 0.2,fill= "lightsteelblue1")+
-  geom_rect(aes(xmin=18,xmax=50,ymin=-Inf,ymax=Inf),alpha=0.2, fill=  "honeydew2")+
-  geom_rect(aes(xmin=50,xmax=110,ymin=-Inf,ymax=Inf),alpha=0.2,fill= "mistyrose1")+
+  scale_x_continuous(expand = c(0, 0), limits = c(0, NA)) + 
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 105))+
+  geom_rect(aes(xmin=0,xmax=18,ymin=-Inf,ymax=Inf),alpha= 0.2,fill= "lightcyan1")+
+  geom_rect(aes(xmin=18,xmax=50,ymin=-Inf,ymax=Inf),alpha=0.2, fill=  "lightcyan2")+
+  geom_rect(aes(xmin=50,xmax=110,ymin=-Inf,ymax=Inf),alpha=10,fill= "lightcyan3")+
   geom_point(aes(x = case_age, 
                  y = percentage,
-                 colour = case_gender)) +
-  geom_label(data = my_labels, aes(x = case_age,
+                 colour = case_gender))+
+  geom_segment(x = 50, y = 25,
+               xend = 80, yend = 72,
+               color = "black",
+               lwd = 0.2,
+               arrow = arrow())+
+  scale_color_manual(values=c("violetred","gray30"), name = "Case Gender")+
+  geom_hline(yintercept = 50,
+             linetype = "dashed",
+             color = "black",
+             lwd = 0.5)+  geom_label(data = my_labels, aes(x = case_age,
                                    y = percentage,
-                                   label = label))+
+                                   label = label))+  
   labs(x = "Patient Age",
        y = "% of Patients Hospitalised",
        title= "Risk of Hospitalisation from Covid-19",
-       subtitle= "Percentage of patients hospitalised based on age and gender")+
-  theme_classic() 
-
-
-# need a better background colour scheme 
-# need a legend to support percentage 
-#geom_smooth(method="lm") # line of best fit 
-
-# checking the factors of my data 
-#glimpse(age_gender_total_hosp)
+       subtitle= "Percentage of patients hospitalised based on age and gender",
+       caption = "Figure 1. A scatter graph showing an increased risk of hospitalisation from Covid-19 is correlated with an increase in age. 
+The arrow indicates risk is greater for those over the age of 50.
+The colour blocks break the graph into age categories: 0-17, 18-49 and 50+ and show the average percentage of patients hopsitalised in that age category.
+Dashed line at 50% to indicate the ages (data points above this line) where over half of confirmed covid patients were hospitalised.  
+The graph also shows that males are at a slightly higher risk of hospitalisation than females.")+
+  theme(plot.title = element_text(hjust = 0.5, size = 15),
+        plot.subtitle = element_text(hjust = 0.5, size = 10),
+        plot.caption = element_text(hjust = 0, size = 8))
+  
+  
+#text(x = 28,y = 52, label = "Higher risk of hospitalisation past age 50")
