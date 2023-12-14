@@ -25,12 +25,14 @@ library(here)
 library(ggthemes)
 library(kableExtra)
 library(gt)
+library(dplyr)
 ```
 
 ```{r read data, include = FALSE}
 # read data 
 source ("scripts/gitting_it_done_1.R")
 source("scripts/JC_rscript.R")
+source("scripts/WC_rscript.R")
 ```
 
 ```{r, include = TRUE, echo = FALSE, message = FALSE, warning = FALSE}
@@ -39,5 +41,12 @@ risk_of_hospitalisation_plot
 
 ```
 
+
+```{r, Include = TRUE, echo = FALSE, message = FALSE, warning = FALSE}
+
+time_spent_in_hospital_graph
+
+
+```
 
 

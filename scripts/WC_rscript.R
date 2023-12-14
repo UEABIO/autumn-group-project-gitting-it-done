@@ -1,7 +1,7 @@
 #Correlation between time spent in hospital, age and gender
 
 #Clearing Environment at start of session
-rm(list=ls())
+#rm(list=ls())
 
 #Loading packages
 library(tidyverse)
@@ -13,6 +13,8 @@ library(here)
 library(ggthemes)
 
 #Setting up new dataset
+
+dplyr::select(covid_data_no_duplicates)
 
 covid_data_age_gender_time_hospital <- select(.data = covid_data_no_duplicates,
                                               case_age, case_gender, hospital_admission_date, hospital_discharge_date)
@@ -29,12 +31,6 @@ covid_data_age_gender_time_hospital <- covid_data_age_gender_time_hospital %>%
   drop_na(hospital_admission_date,
           hospital_discharge_date)
 
-
-covid_data_age_gender_time_hospital %>% 
-  summarise(admission=min(hospital_admission_date), 
-            discharge=max(hospital_discharge_date), 
-            hospital_duration = discharge-admission, 
-            n=n())
 
 #removing
 covid_data_age_gender_time_hospital <- covid_data_age_gender_time_hospital %>% 
@@ -98,22 +94,4 @@ time_spent_in_hospital_graph <- ggplot(combined_data, aes(x = Age_Group, y = hos
   
 print(time_spent_in_hospital_graph)
 
-view(age_gender_time_hospital_0_20 )
-mean(age_gender_time_hospital_0_20,
-     hospital_duration)
-
-mean_duration_0_20 <- colMeans(age_gender_time_hospital_0_20["hospital_duration"])
-
-print(mean_duration_0_20)
-
-                                          
-mean_value_0_20 <- mean(age_gender_time_hospital_0_20$hospital_duration)
-
-mean_value_21_40 <- mean(age_gender_time_hospital_21_40$hospital_duration)
-
-mean_value_41_60 <- mean(age_gender_time_hospital_41_60$hospital_duration)
-
-mean_value_61_80 <- mean(age_gender_time_hospital_61_80$hospital_duration)
-
-mean_value_81_above <- mean(age_gender_time_hospital_81_above$hospital_duration)
 
