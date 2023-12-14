@@ -1,6 +1,6 @@
 ---
 title: "Covid Outbreak Situation Report"
-author: "Jessica Cunliffe"
+author: "Jessica Cunliffe, William Clifton, Kelsey Connor, Jasper Raistrick"
 output: html_document
 date: "2023-12-11"
 df_print: paged
@@ -10,7 +10,7 @@ df_print: paged
 # GLOBAL KNITR OPTIONS ----
 knitr::opts_chunk$set(echo = TRUE,
  fig.align = "center",
- fig.width = 9,
+ fig.width = 10,
  fig.asp = 1,
  out.width = "80%")
 ```
@@ -33,6 +33,7 @@ library(dplyr)
 source ("scripts/gitting_it_done_1.R")
 source("scripts/JC_rscript.R")
 source("scripts/WC_rscript.R")
+source("scripts/KC_rscript.R")
 ```
 
 ```{r, include = TRUE, echo = FALSE, message = FALSE, warning = FALSE}
@@ -49,4 +50,9 @@ time_spent_in_hospital_graph
 
 ```
 
+```{r, Include = TRUE, echo = FALSE, message = FALSE, warning = FALSE}
+
+age_and_race_boxplot_KC
+
+```
 
