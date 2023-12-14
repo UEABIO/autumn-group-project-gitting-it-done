@@ -8,91 +8,60 @@ library(lubridate)
 library(plotly)
 library(here)
 library(ggthemes)
-library(forcats)
-library(circlize)
-library(zoom)
 
-# Tidying my data set ----
-# Creating a tidier data set using the variables I need  
-covid_data_died_vs_died_covid <- select(.data = covid_data_no_duplicates, 
-                                             case_race, died, died_covid)
+# Creating a box plot to show case_age and case_race 
+covid_data_race_and_sym_numeric <- covid_data_no_duplicates
 
-covid_data_died_vs_died_covid <- arrange(.data = covid_data_died_vs_died_covid,
-                                              case_race,died, died_covid) 
+# Remove NAs from case_age variable
+covid_data_race_and_sym_numeric <- covid_data_race_and_sym_numeric[complete.cases(covid_data_race_and_sym_numeric$case_age), ]
 
+# Remove NAs from case_race variable
+covid_data_race_and_sym_numeric <- covid_data_race_and_sym_numeric[complete.cases(covid_data_race_and_sym_numeric$case_race), ]
 
-# This tells me the sum of how many observations are missing from the entirety of the data frame 
-covid_data_died_vs_died_covid %>% 
-  is.na() %>% 
-  sum()
-
-# using the glimpse function to remove all of the n/a values 
-covid_data_died_vs_died_covid_2 <- drop_na(covid_data_died_vs_died_covid)
-
-covid_data_died_vs_died_covid_2 %>% 
-  is.na() %>% 
-  sum()
-
-# Glimpse(covid_data_died_vs_died_covid_2)
-
-# Removing unknown data from the data set 
-covid_data_died_vs_died_covid_2 <- subset(covid_data_died_vs_died_covid_2, !is.na(died) & trimws(died) != "Unknown")
-covid_data_died_vs_died_covid_2 <- subset(covid_data_died_vs_died_covid_2, !is.na(died_covid) & trimws(died_covid) != "Under Review")
+# Check the resulting dataset
+head(covid_data_race_and_sym_numeric)
 
 # Remove rows with "other", "unknown" and "under review" values in case_race
-covid_data_died_vs_died_covid_2 <- covid_data_died_vs_died_covid_2 %>%
-  filter(!(case_race %in% c("UNKNOWN", "OTHER", "UNDER REVIEW")))
+covid_data_race_and_sym_numeric <- covid_data_race_and_sym_numeric %>%
+  filter(!(case_race %in% c("UNKNOWN", "OTHER", "UNDER REVIEW", "NA", NA)))
 
-# Remove rows with "other", "unknown" and "under review" values in died
-covid_data_died_vs_died_covid_2 <- covid_data_died_vs_died_covid_2 %>%
-  filter(!(died %in% c("unknown", "other", "under review")))
+# Remove rows with "other", "unknown" and "under review" values in symptom_count
+covid_data_race_and_sym_numeric <- covid_data_race_and_sym_numeric %>%
+  filter(!(case_age %in% c("UNKNOWN", "OTHER", "UNDER REVIEW", "NA")))
 
-# Remove rows with "other", "unknown" and "under review" values in died_covid
-covid_data_died_vs_died_covid_2 <- covid_data_died_vs_died_covid_2 %>%
-  filter(!(died_covid %in% c("unknown", "other", "under review")))
-
+# getting rid of the -20 age from case_age
+covid_data_race_and_sym_numeric <- covid_data_race_and_sym_numeric %>%
+  filter(case_age >= 0,
+         case_age<= 110)
 
 # USING THE UNIQUE FUNCTION TO CHECK THIS WORKED
-unique(covid_data_died_vs_died_covid_2$case_race)
-unique(covid_data_died_vs_died_covid_2$died)
-unique(covid_data_died_vs_died_covid_2$died_covid)
+unique(covid_data_race_and_sym_numeric$case_race)
+unique(covid_data_race_and_sym_numeric$case_age)
 
-
-# Convert "Yes" and "No" to 1 and 0 ----
-covid_data_died_vs_died_covid_without_na <- covid_data_died_vs_died_covid_2 %>%
-  mutate(died = ifelse(died == "Yes", 1, 0),
-         died_covid = ifelse(died_covid == "Yes", 1, 0))
-
-# Summarise the data
-summary_data <- covid_data_died_vs_died_covid_2 %>%
-  group_by(case_race) %>%
-  summarise(total_deaths = sum(died),
-            covid_deaths = sum(died_covid))
-
-
-
-# Create a grouped bar chart with background color
-ggplot(covid_data_died_vs_died_covid_without_na, aes(x = case_race, fill = factor(died_covid))) +
-  geom_bar(position = "dodge", stat = "count", alpha = 0.7, width = 0.7, color = "white") +
-  scale_fill_manual(values = c("royalblue", "rosybrown2"), name = "Died from COVID-19:", labels = c("No", "Yes")) +
-  labs(title = "Mortality Patterns by Race: All Deaths vs Deaths Attributed to COVID-19",
-       subtitle = "Using a Grouped Bar Chart",
+# Creating a box plot exploring case and age 
+ggplot(covid_data_race_and_sym_numeric, aes(x = case_race, y = case_age, fill = case_race)) +
+  geom_boxplot(outlier.shape = 16, alpha = 0.7, position = position_dodge(width = 0.8)) +
+  stat_ellipse(aes(color = case_race), type = "norm", level = 0.95, position = position_dodge(width = 0.8)) +
+  scale_fill_manual(values = c("mediumpurple", "paleturquoise", "seagreen2", "lightgoldenrod1", "lightpink")) +
+  labs(title = "Box plot to show age and race",
+       subtitle = "Graphically demonstarting the distribution of age and race",
        x = "Race",
-       y = "Count (Deaths)") +
-  theme_classic() +
-  theme(
-    plot.background = element_rect(fill = "white"),  # Set the background color
-    axis.text.x = element_text(angle = 35, hjust = 1, size = 7, family = "georgia"),
-    legend.position = "top",
-    legend.justification = "left",
-    text = element_text(family = "arial", face = "bold"),
-    legend.title = element_text(face = "italic", size = 10, color = "black"),
-    legend.text = element_text(face = "italic", size = 10, color = "black" )
-  ) +
-  geom_text(aes(label = ..count.., group = factor(died_covid), color = factor(died_covid)), stat = "count",
-            position = position_dodge(width = 0.7), vjust = -0.5, size = 3) +
-  scale_color_manual(values = c("royalblue4", "rosybrown4")) +
-  guides(color = "none") +
-  annotate("text", x = 1, y = -10, label = "", size = 5, vjust = -0.5) +
-  scale_x_discrete(expand = c(0, 0))
-
+       y = "Age") +
+  theme_minimal() +
+  theme(axis.title.x = element_text(size = 12),
+        axis.title.y = element_text(size = 12),
+        axis.text.x = element_text(size = 10, angle = 45, hjust = 1), # Rotate x-axis labels by 45 degrees
+        axis.text.y = element_text(size = 10),
+        plot.title = element_text(size = 14, face = "bold"),
+        legend.position = "top",
+        legend.title = element_text(size = 12), 
+        legend.text = element_text(size = 10),
+        panel.grid.major = element_line(color = "gray", size = 0.2),
+        panel.grid.minor = element_blank(),
+        legend.background = element_rect(fill = "white", color = "black", size = 0.5),
+        panel.border = element_rect(color = "black", fill = NA, size = 0.7),
+        strip.background = element_rect(fill = "white", color = "black", size = 0.7),
+        strip.text = element_text(face = "bold")) +
+  guides(fill = guide_legend(override.aes = list(alpha = 1))) +
+  scale_color_manual(values = c("mediumpurple", "paleturquoise", "seagreen2", "lightgoldenrod1", "lightpink")) +
+  labs(fill = "Race:")
