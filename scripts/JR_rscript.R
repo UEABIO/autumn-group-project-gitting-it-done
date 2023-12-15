@@ -21,7 +21,7 @@ library(ggthemes)
 # Selecting just symptom variables from dataset and naming as object
 
 covid_symptoms_data <-  covid_data_no_duplicates %>% 
-       select(sym_fever, sym_subjfever, sym_myalgia, sym_loss_taste_smell,
+       select(sym_fever, sym_myalgia, sym_loss_taste_smell,
        sym_sorethroat, sym_cough, sym_headache)
 
 # _________________________----
@@ -88,22 +88,45 @@ covid_symptoms_data_clean_long <- covid_symptoms_data_clean_long %>%
 group_by( type, symptoms) %>%  # Creating new column of totals
   summarise(n = n()) 
 
-# Creating a bar chart
-covid_symptoms_data_clean_long %>% 
-ggplot(aes(y = type, x =n, fill = symptoms)) + geom_col()
+
 
 
 # DATA VISUALISATION ----
 
 
+# Creating a bar chart
 
 
-# Creating proportions of Yes and No symptoms data
 
-proportion_covid_data <-  %>% 
-  group_by(species) %>% 
-  summarise(n = n()) %>% 
-  mutate(prob_obs = n/sum(n))
+proportion_covid_data <- covid_symptoms_data_clean_long %>% 
+  group_by(type) %>% 
+  mutate(prop_sym = n/sum(n)) %>%  # Creating proportions of Yes and No symptoms data
+    filter(symptoms != "No") %>%  # Filtering out No proportions
+    ggplot(aes(y = type, x = prop_sym, fill = type)) +
+  geom_col() +
+  scale_fill_manual(values = c( "sym_cough" = "darkblue",
+                                "sym_fever" = "lightgrey",
+                                "sym_headache" = "blue",
+                                "sym_fever" = "lightgrey",
+                                "sym_loss_taste_smell"= "royalblue",
+                                "sym_sorethroat" = "lightgrey",
+                                "sym_myalgia" = "lightgrey")) +
+  geom_text(aes(label=scales::percent(prop_sym)), nudge_x = -0.06) +
+  theme_minimal()
+    
+proportion_covid_data
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
