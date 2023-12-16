@@ -34,6 +34,7 @@ source ("scripts/gitting_it_done_1.R")
 source("scripts/JC_rscript.R")
 source("scripts/WC_rscript.R")
 source("scripts/KC_rscript.R")
+source("scripts/JR_rscript.R")
 ```
 
 ```{r, include = TRUE, echo = FALSE, message = FALSE, warning = FALSE}
@@ -41,7 +42,6 @@ source("scripts/KC_rscript.R")
 risk_of_hospitalisation_plot
 
 ```
-
 
 ```{r, Include = TRUE, echo = FALSE, message = FALSE, warning = FALSE}
 
@@ -56,3 +56,8 @@ age_and_race_boxplot_KC
 
 ```
 
+```{r, Include = TRUE, echo = FALSE, message = FALSE, warning = FALSE}
+
+covid_symptoms_bar_chart
+
+```
