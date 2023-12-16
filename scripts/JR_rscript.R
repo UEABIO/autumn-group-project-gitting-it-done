@@ -61,7 +61,7 @@ proportion_covid_data <- covid_symptoms_data_clean_long %>%
 
 covid_symptoms_bar_chart <- proportion_covid_data %>% 
     ggplot(aes(y = type, x = prop_sym, fill = type)) + # Choosing axes
-  geom_col() + 
+  geom_col(width = 0.8, position = position_dodge(0.7)) + # Bar width & spacing
   #Choosing colours for a gradient effect
   scale_fill_manual(values = c("sym_cough" = "#0080bf",
                                "sym_headache" = "#00acdf",
