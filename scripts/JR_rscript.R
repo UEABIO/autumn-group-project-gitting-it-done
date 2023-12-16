@@ -62,12 +62,12 @@ covid_symptoms_bar_chart <- proportion_covid_data %>%
     ggplot(aes(y = type, x = prop_sym, fill = type)) + # Choosing axes
   geom_col() + 
   #Choosing colours for a gradient effect
-  scale_fill_manual(values = c( "sym_cough" = "#0080bf",
-                                "sym_headache" = "#00acdf",
-                                "sym_fever" = "lightgrey",
-                                "sym_loss_taste_smell"= "#55d0ff",
-                                "sym_sorethroat" = "lightgrey",
-                                "sym_myalgia" = "#7ce8ff")) +
+  scale_fill_manual(values = c("sym_cough" = "#0080bf",
+                               "sym_headache" = "#00acdf",
+                               "sym_fever" = "lightgrey",
+                               "sym_loss_taste_smell"= "#55d0ff",
+                               "sym_sorethroat" = "lightgrey",
+                               "sym_myalgia" = "#7ce8ff")) +
 geom_label(aes(label=scales::percent(prop_sym, # Adding labels as percentages
                                      accuracy = 0.01)),# Two decimal places
             nudge_x = -0.05, # Moves labels inboard of bars
@@ -81,7 +81,7 @@ geom_label(aes(label=scales::percent(prop_sym, # Adding labels as percentages
                                    family = "Fira Sans"),
                                    plot.title = element_text(size = 18,
                                                              face = "bold"),
-        plot.caption = element_text(size = 15, hjust = 1), 
+        plot.caption = element_text(size = 16, hjust = 1), 
         plot.subtitle = element_text(size = 17)) + 
   scale_y_discrete(labels=c("Cough", "Headache", "Loss of Taste or Smell",
                             "Myalgia", "Fever","Sore Throat")) + #Symptom labels
