@@ -95,4 +95,11 @@ geom_label(aes(label=scales::percent(prop_sym, # Adding labels as percentages
     
 print(covid_symptoms_bar_chart)
 
+# To save bar chart as a png in figures
+#ggsave("figures/covid_symptoms_bar_chart.png",
+      # plot = covid_symptoms_bar_chart,
+      # width = 35,
+      # height = 20,
+      # units = "cm",
+      # device = "png")
 #_________________________________----
