@@ -1,6 +1,7 @@
 
-# Jasper Raistrick Covid Data Visualisation ----
-# What are the most common covid symptoms recorded? ----
+# Jasper Raistrick Covid Outbreak Situation Report ----
+# What are the most common covid symptoms recorded by proportion?
+# Presenting data visually as a bar chart
 #_________________----
 
 
@@ -92,6 +93,6 @@ geom_label(aes(label=scales::percent(prop_sym, # Adding labels as percentages
   labs(caption = "Figure 4: The proportions as percentages of patients showing different symptoms for Covid-19(SARS-CoV-2)
                    out of total recorded prescence or abscence of symptoms for each symptom. Percentages rounded to two decimal places.") 
     
-covid_symptoms_bar_chart
+print(covid_symptoms_bar_chart)
 
 #_________________________________----
