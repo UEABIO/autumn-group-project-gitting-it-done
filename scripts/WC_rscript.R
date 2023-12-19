@@ -75,18 +75,15 @@ combined_data <- bind_rows(
   mutate(age_gender_time_hospital_21_40, Age_Group = "21-40"),
   mutate(age_gender_time_hospital_41_60, Age_Group = "41-60"),
   mutate(age_gender_time_hospital_61_80, Age_Group = "61-80"),
-  mutate(age_gender_time_hospital_81_above, Age_Group = "81 and above"))
+  mutate(age_gender_time_hospital_81_above, Age_Group = "81 and above")) #creates five different age groups
 
 time_spent_in_hospital_graph <- ggplot(combined_data, aes(x = Age_Group, y = hospital_duration, fill = Age_Group)) +
-  geom_violin(trim = FALSE, scale = "width", width = 1) +
-  geom_boxplot(width = 0.1, position = position_dodge(0.8), alpha = 0.7) +
-  labs(title = "Time Spent in Hospital for Different Age Groups",
+  geom_violin(trim = FALSE, scale = "width", width = 0.95) + #creates a violin plot at a specified width
+  geom_boxplot(width = 0.12, position = position_dodge(0.8), alpha = 0.7) +
+  labs(title = "An increase in age increases the number of days that patients spend in hospital",
        subtitle = "A violin boxplot showing the time that different age groups spent in hospital",
        x = "Age Group",
-       y = "Hospital Duration (days)",
-       caption = "Figure 2. A violin boxplot showing an increased duration of time spent in hospital correlates with an increase in age.
-       There are large annomalies for each age group which are separate from the other data.
-       People aged 61-80 are most likely to spend the most time in hospital and people aged 0-20 are most likely to spend the least time in hospital.") +
+       y = "Hospital Duration (days)") +
   theme_minimal()+
   theme(plot.title = element_text(hjust = 0.5, size = 15),
         plot.subtitle = element_text(hjust = 0.5, size = 10),
