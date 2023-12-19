@@ -13,37 +13,37 @@ library(plotly)
 library(here)
 library(ggthemes)
 
-# Creating a box plot to show case_age and case_race ----
+# Renaming the data set before creating the boxplot  ----
 covid_data_race_and_sym_numeric <- covid_data_no_duplicates
 
-# Remove NAs from case_age variable
+# Remove NAs from case_age variable ----
 covid_data_race_and_sym_numeric <- covid_data_race_and_sym_numeric[complete.cases(covid_data_race_and_sym_numeric$case_age), ]
 
-# Remove NAs from case_race variable
+# Remove NAs from case_race variable ----
 covid_data_race_and_sym_numeric <- covid_data_race_and_sym_numeric[complete.cases(covid_data_race_and_sym_numeric$case_race), ]
 
 # Check the resulting dataset
 head(covid_data_race_and_sym_numeric)
 
-# Remove rows with "other", "unknown" and "under review" values in case_race
+# Remove rows with "other", "unknown" and "under review" values in case_race ----
 covid_data_race_and_sym_numeric <- covid_data_race_and_sym_numeric %>%
   filter(!(case_race %in% c("UNKNOWN", "OTHER", "UNDER REVIEW", "NA", NA)))
 
-# Remove rows with "other", "unknown" and "under review" values in symptom_count
+# Remove rows with "other", "unknown" and "under review" values in symptom_count ----
 covid_data_race_and_sym_numeric <- covid_data_race_and_sym_numeric %>%
   filter(!(case_age %in% c("UNKNOWN", "OTHER", "UNDER REVIEW", "NA")))
 
-# getting rid of the -20 age from case_age
+# getting rid of the -20 age from case_age ----
 covid_data_race_and_sym_numeric <- covid_data_race_and_sym_numeric %>%
   filter(case_age >= 0,
          case_age<= 110)
 
-# USING THE UNIQUE FUNCTION TO CHECK THIS WORKED
+# USING THE UNIQUE FUNCTION TO CHECK THIS WORKED ----
 unique(covid_data_race_and_sym_numeric$case_race)
 unique(covid_data_race_and_sym_numeric$case_age)
 
 
-# Creating a boxplot to show age and race 
+# Creating a boxplot to show age and race ----
 age_and_race_boxplot_KC <- ggplot(covid_data_race_and_sym_numeric, aes(x = case_race, y = case_age, fill = case_race)) + #plotting the x and y axis 
   geom_boxplot(outlier.shape = 16, alpha = 0.7, position = position_dodge(width = 0.8)) + # adds the data in a  boxplot 
   stat_ellipse(aes(color = case_race), type = "norm", level = 0.95, position = position_dodge(width = 0.8)) + # adds ellipses to the plot, representing the normal distribution of the case_race data set 
@@ -73,7 +73,7 @@ age_and_race_boxplot_KC <- ggplot(covid_data_race_and_sym_numeric, aes(x = case_
   scale_color_manual(values = c("mediumpurple", "paleturquoise", "seagreen2", "lightgoldenrod1", "lightpink")) + #manually setting the colours for the different races 
   labs(fill = "Race:") + 
   
-# Adding labels to the boxplot to show the median age values
+# Adding labels to the boxplot to show the median age values ----
   stat_summary( # used to calculate summary statistics and display them on the box plot 
     fun = "median", # the fuction i want to be applied is median 
     geom = "text", #displays it in a text format 
