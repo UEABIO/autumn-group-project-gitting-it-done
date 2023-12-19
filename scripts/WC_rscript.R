@@ -81,7 +81,7 @@ time_spent_in_hospital_graph <- ggplot(combined_data, aes(x = Age_Group, y = hos
   geom_violin(trim = FALSE, scale = "width", width = 0.95) + #creates a violin plot at a specified width
   geom_boxplot(width = 0.12, position = position_dodge(0.8), alpha = 0.7) +
   labs(title = "An increase in age increases the number of days that patients spend in hospital",
-       subtitle = "A violin boxplot showing the time that different age groups spent in hospital",
+       subtitle = "A violin boxplot showing the duration of time that different age groups spent in hospital",
        x = "Age Group",
        y = "Hospital Duration (days)") +
   theme_minimal()+
