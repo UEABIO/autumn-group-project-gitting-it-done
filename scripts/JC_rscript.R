@@ -132,8 +132,8 @@ risk_of_hospitalisation_plot <- age_gender_total_hosp %>% #assigning to an objec
        caption = "The arrow indicates risk is greater for those over the age of 50.
 The colour blocks break the graph into age categories: 0-17, 18-49 and 50+ and show the average percentage of patients hopsitalised in that age category.
 Dashed line at 50% to indicate the ages (data points above this line) where over half of confirmed covid patients were hospitalised.")+
-  theme(plot.title = element_text(hjust = 0.5, size = 15), # Altering the sizes of text on graph 
-        plot.subtitle = element_text(hjust = 0.5, size = 10),
+  theme(plot.title = element_text(hjust = 0.5, size = 25), # Altering the sizes of text on graph 
+        plot.subtitle = element_text(hjust = 0.5, size = 20),
         plot.caption = element_text(hjust = 0, size = 8),
         axis.text = element_text( hjust = 1,size = 10),
         axis.title.x = element_text(size = 18),
