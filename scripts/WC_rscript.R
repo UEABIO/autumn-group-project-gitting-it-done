@@ -41,7 +41,7 @@ covid_data_hospital_time <- covid_data_age_gender_time_hospital %>%
   summarise(admission = min(hospital_admission_date),
             discharge = max(hospital_discharge_date),
             hospital_duration = discharge - admission,
-            n = n())
+            n = n()) 
 
 #finding the number of days spent in hospital and filtering out incorrect values
 covid_data_age_gender_time_hospital <- covid_data_age_gender_time_hospital %>%
@@ -52,6 +52,7 @@ covid_data_age_gender_time_hospital <- covid_data_age_gender_time_hospital %>%
 
 glimpse(covid_data_age_gender_time_hospital)
 
+#creating five new datasets for each age group
 age_gender_time_hospital_0_20 <- covid_data_age_gender_time_hospital %>%
   filter(case_age <=20)
 
@@ -65,7 +66,7 @@ age_gender_time_hospital_61_80 <- covid_data_age_gender_time_hospital %>%
   filter(case_age %in% (61:80))
 
 age_gender_time_hospital_81_above <- covid_data_age_gender_time_hospital %>%
-  filter(case_age >=81)
+  filter(case_age >=81) 
 
 
 #try merge function for all new data set age groups
@@ -75,7 +76,7 @@ combined_data <- bind_rows(
   mutate(age_gender_time_hospital_21_40, Age_Group = "21-40"),
   mutate(age_gender_time_hospital_41_60, Age_Group = "41-60"),
   mutate(age_gender_time_hospital_61_80, Age_Group = "61-80"),
-  mutate(age_gender_time_hospital_81_above, Age_Group = "81 and above")) #creates five different age groups
+  mutate(age_gender_time_hospital_81_above, Age_Group = "81 and above")) 
 
 time_spent_in_hospital_graph <- ggplot(combined_data, aes(x = Age_Group, y = hospital_duration, fill = Age_Group)) +
   geom_violin(trim = FALSE, scale = "width", width = 0.95) + #creates a violin plot at a specified width
@@ -83,11 +84,11 @@ time_spent_in_hospital_graph <- ggplot(combined_data, aes(x = Age_Group, y = hos
   labs(title = "An increase in age increases the number of days that patients spend in hospital",
        subtitle = "A violin boxplot showing the duration of time that different age groups spent in hospital",
        x = "Age Group",
-       y = "Hospital Duration (days)") +
+       y = "Hospital Duration (days)") + #labelling the x axis and y axis
   theme_minimal()+
-  theme(plot.title = element_text(hjust = 0.5, size = 15),
-        plot.subtitle = element_text(hjust = 0.5, size = 10),
-        plot.caption = element_text(hjust = 0, size = 8))
+  theme(plot.title = element_text(hjust = 0.5, size = 15), #states the size of the title
+        plot.subtitle = element_text(hjust = 0.5, size = 10), #states the size of the subtitle
+        plot.caption = element_text(hjust = 0, size = 8)) #states the size of the caption
   
 print(time_spent_in_hospital_graph)
 
