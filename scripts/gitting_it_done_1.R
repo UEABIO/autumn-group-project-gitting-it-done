@@ -82,3 +82,5 @@ covid_data_no_duplicates <- covid_data_clean[!duplicated(covid_data_clean), ]
   #duplicated() %>% 
   #sum() 
 
+# Some lines of code have been hastagged so the original script can be read smoohtly without overloading the RAM 
+
