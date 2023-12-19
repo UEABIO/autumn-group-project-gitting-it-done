@@ -37,6 +37,13 @@ source("scripts/KC_rscript.R")
 source("scripts/JR_rscript.R")
 ```
 
+
+### The following graphs below report current figures from the COVID-19 Outbreak situtaion 
+
+
+#### Jess Cunliffe on the Hospitalisation Risk based on Age and Gender 
+
+
 ```{r, include = TRUE, echo = FALSE, message = FALSE, warning = FALSE}
 
 risk_of_hospitalisation_plot
