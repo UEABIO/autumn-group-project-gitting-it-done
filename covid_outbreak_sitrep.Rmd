@@ -57,7 +57,7 @@ time_spent_in_hospital_graph
 ```
 
 
-#### Kelsey Connor on the Differences in Ages with COVID-19 across Races
+#### Kelsey Connor (100390314) on the Differences in Ages with COVID-19 across Races
 
 
 ```{r, Include = TRUE, echo = FALSE, message = FALSE, warning = FALSE}
