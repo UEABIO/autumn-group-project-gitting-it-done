@@ -2,14 +2,12 @@
 title: "Covid Outbreak Situation Report"
 author: "Jessica Cunliffe, William Clifton, Kelsey Connor, Jasper Raistrick"
 date: "2023-12-11"
-output:
-  pdf_document: default
-  html_document: default
+output: html_document
 ---
 
 ```{r setup , include = FALSE}
 # GLOBAL KNITR OPTIONS ----
-knitr::opts_chunk$set(echo = TRUE,
+knitr::opts_chunk$set(echo = FALSE,
  fig.align = "center",
  fig.width = 10,
  fig.asp = 1,
