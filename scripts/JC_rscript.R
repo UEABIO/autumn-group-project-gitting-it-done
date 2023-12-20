@@ -20,10 +20,10 @@ library(ggthemes)
 # Creating and tidying data set ----
 
 covid_data_age_gender_hospitalized <- select(.data = covid_data_no_duplicates, 
-              case_age, case_gender, hospitalized)
+                                             case_age, case_gender, hospitalized)
 
 covid_data_age_gender_hospitalized <- arrange(.data = covid_data_age_gender_hospitalized,
-        case_gender,case_age) 
+                                              case_gender,case_age) 
 
 # Having looked at the data i would like to know:
 # total males and females
@@ -36,15 +36,15 @@ covid_data_age_gender_hospitalized <- arrange(.data = covid_data_age_gender_hosp
 
 # Get a sum of how many observations are missing in our dataframe
 #covid_data_age_gender_hospitalized %>% 
- # is.na() %>% 
-  #sum()
+# is.na() %>% 
+#sum()
 
 # Removing all NA values 
 covid_data_age_gender_hospitalized_2 <- drop_na(covid_data_age_gender_hospitalized)
 
 #covid_data_age_gender_hospitalized_2 %>% 
- # is.na() %>% 
-  #sum()
+# is.na() %>% 
+#sum()
 
 # glimpse(covid_data_age_gender_hospitalized_2)
 
@@ -66,14 +66,14 @@ covid_data_age_gender_hospitalized_2 %>%
 totals_age_gender <- covid_data_age_gender_hospitalized_2 %>% 
   group_by(case_age, case_gender) %>% 
   summarise(num=n())
-  
+
 # number of hospitalized for each age, removing unknown data 
 
 age_vs_hospitalisation_data <- covid_data_age_gender_hospitalized_2 %>% 
   group_by(case_age, case_gender) %>% 
   filter(hospitalized == "Yes", !case_gender == "Unknown") %>% 
   summarise(n = n()) 
-  
+
 
 # creating a data set with percentage hospitalised from age and gender 
 
@@ -100,44 +100,37 @@ label <- c("3.05% avg", "5.57% avg.", "38.71% avg.","0-17 yrs.","18-49 yrs", "50
 
 my_labels <- tibble(case_age, percentage, label) 
 
+# Data Visual ----
 
-# % Patients Hospitalised Figure by age and gender figure 
-risk_of_hospitalisation_plot <- age_gender_total_hosp %>% 
-  ggplot() +
-  scale_x_continuous(expand = c(0, 0), limits = c(0, NA)) + 
-  scale_y_continuous(expand = c(0, 0), limits = c(0, 105))+
-  geom_rect(aes(xmin=0,xmax=18,ymin=-Inf,ymax=Inf),alpha= 0.2,fill= "lightcyan1")+
+# % Patients Hospitalised by age and gender figure 
+risk_of_hospitalisation_plot <- age_gender_total_hosp %>% #assigning to an object to be pulled to Rmarkdown
+  ggplot() + #calling a plot
+  scale_x_continuous(expand = c(0, 0), limits = c(0, NA)) + # Changing x-axis to start at zero
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 105))+ # Changing y-axis to start at zero
+  geom_rect(aes(xmin=0,xmax=18,ymin=-Inf,ymax=Inf),alpha= 0.2,fill= "lightcyan1")+ #adding colour block bachgrounds to indicate age categories
   geom_rect(aes(xmin=18,xmax=50,ymin=-Inf,ymax=Inf),alpha=0.2, fill=  "lightcyan2")+
   geom_rect(aes(xmin=50,xmax=110,ymin=-Inf,ymax=Inf),alpha=10,fill= "lightcyan3")+
-  geom_point(aes(x = case_age, 
+  geom_point(aes(x = case_age, #creating scatter plot
                  y = percentage,
-                 colour = case_gender))+
-  geom_segment(x = 50, y = 25,
+                 colour = case_gender))+ 
+  geom_segment(x = 50, y = 25, # adding in a an indicative arrow 
                xend = 80, yend = 72,
                color = "black",
                lwd = 0.2,
                arrow = arrow())+
-  scale_color_manual(values=c("violetred","gray30"), name = "Case Gender")+
-  geom_hline(yintercept = 50,
+  scale_color_manual(values=c("violetred","gray30"), name = "Case Gender")+ # Altering the color of data plots
+  geom_hline(yintercept = 50, # adding in a horizontal intercept line 
              linetype = "dashed",
              color = "black",
              lwd = 0.5)+  geom_label(data = my_labels, aes(x = case_age,
-                                   y = percentage,
-                                   label = label))+  
-  labs(x = "Patient Age",
+                                                           y = percentage,
+                                                           label = label))+  
+  labs(x = "Patient Age", #creting axis titles 
        y = "% of Patients Hospitalised",
-       title= "Risk of Hospitalisation from Covid-19",
+       title= "Increased risk of hospitalisation from Covid-19 \nwith increased age and gender type",
        subtitle= "Percentage of patients hospitalised based on age and gender",
-       caption = "Figure 1. A scatter graph showing an increased risk of hospitalisation from Covid-19 is correlated with an increase in age. 
-The arrow indicates risk is greater for those over the age of 50.
+       caption = "The arrow indicates risk is greater for those over the age of 50.
 The colour blocks break the graph into age categories: 0-17, 18-49 and 50+ and show the average percentage of patients hopsitalised in that age category.
-<<<<<<< HEAD
-Dashed line at 50% to indicate the ages (data points above this line) where over half of confirmed covid patients were hospitalised.  
-The graph also shows that males are at a slightly higher risk of hospitalisation than females.")+
-  theme(plot.title = element_text(hjust = 0.5, size = 15),
-        plot.subtitle = element_text(hjust = 0.5, size = 10),
-        plot.caption = element_text(hjust = 0, size = 8))
-=======
 Dashed line at 50% to indicate the ages (data points above this line) where over half of confirmed covid patients were hospitalised.")+
   theme(plot.title = element_text(hjust = 0.5, size = 25), # Altering the sizes of text on graph 
         plot.subtitle = element_text(hjust = 0.5, size = 20),
@@ -147,7 +140,15 @@ Dashed line at 50% to indicate the ages (data points above this line) where over
         axis.title.y = element_text(size = 18),
         legend.title = element_text(size = 15), 
         legend.text = element_text(size = 12))
->>>>>>> 52ddc1bdb3b824f0f7f406499ea1298ea56f3410
-  
-  
-#text(x = 28,y = 52, label = "Higher risk of hospitalisation past age 50")
+
+print(risk_of_hospitalisation_plot)
+
+# Saving Visual ----
+
+#Saving figure as PNG
+ggsave("figures/JC_risk_of_hospitalisation_plot.png",
+       plot = risk_of_hospitalisation_plot,
+       width = 35,
+       height = 20,
+       units = "cm",
+       device = "png")
