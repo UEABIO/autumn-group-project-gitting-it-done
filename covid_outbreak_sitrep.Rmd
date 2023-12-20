@@ -43,11 +43,19 @@ source("scripts/JR_rscript.R")
 
 #### Jess Cunliffe on the Hospitalisation Risk based on Age and Gender
 
+
+
 ```{r, include = TRUE, echo = FALSE, message = FALSE, warning = FALSE}
 
 risk_of_hospitalisation_plot
 
 ```
+
+
+
+
+
+
 
 ```{r, Include = TRUE, echo = FALSE, message = FALSE, warning = FALSE}
 
@@ -57,7 +65,14 @@ time_spent_in_hospital_graph
 ```
 
 
+
+
+
+
+
+
 #### Kelsey Connor (100390314) on the Differences in Ages with COVID-19 across Races
+
 
 
 ```{r, Include = TRUE, echo = FALSE, message = FALSE, warning = FALSE}
@@ -65,6 +80,14 @@ time_spent_in_hospital_graph
 age_and_race_boxplot_KC
 
 ```
+
+
+
+
+
+#### Jasper Raistrick on the most common Covid symptoms 
+
+
 
 ```{r, Include = TRUE, echo = FALSE, message = FALSE, warning = FALSE}
 
