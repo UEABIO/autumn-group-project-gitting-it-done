@@ -3,8 +3,8 @@ title: "Covid Outbreak Situation Report"
 author: "Jessica Cunliffe, William Clifton, Kelsey Connor, Jasper Raistrick"
 date: "2023-12-11"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 
 ```{r setup , include = FALSE}
@@ -55,6 +55,10 @@ time_spent_in_hospital_graph
 
 
 ```
+
+
+#### Kelsey Connor on the Differences in Ages with COVID-19 across Races
+
 
 ```{r, Include = TRUE, echo = FALSE, message = FALSE, warning = FALSE}
 
