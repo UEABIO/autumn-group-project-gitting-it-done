@@ -1,8 +1,8 @@
 # KC Covid Outbreak Situation Report ----
 # A boxplot to understand the distribution between Age and Race using data from a Covid Report----
 
-# clearing the environment
-# rm(list=ls())
+# clearing the environment (added a # so that this doesnt happen when running the code in the markdown )
+# rm(list=ls()) 
 
 # loading the packages ----
 library(tidyverse)
