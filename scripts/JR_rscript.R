@@ -90,7 +90,7 @@ geom_label(aes(label=scales::percent(prop_sym, # Adding labels as percentages
   "Cough, Headache, Loss of Taste or Smell and Myalgia 
   are the 4 most common Covid-19 Symptoms",
           subtitle = "Each are present in at least 40% of cases ") +
-  labs(caption = "Figure 4: The proportions as percentages of patients showing different symptoms for Covid-19(SARS-CoV-2)
+  labs(caption = "The proportions as percentages of patients showing different symptoms for Covid-19(SARS-CoV-2)
                    out of total recorded prescence or abscence of symptoms for each symptom. Percentages rounded to two decimal places.") 
     
 print(covid_symptoms_bar_chart)
