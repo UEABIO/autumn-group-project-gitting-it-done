@@ -1,9 +1,10 @@
 ---
 title: "Covid Outbreak Situation Report"
 author: "Jessica Cunliffe, William Clifton, Kelsey Connor, Jasper Raistrick"
-output: html_document
 date: "2023-12-11"
-df_print: paged
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup , include = FALSE}
@@ -23,9 +24,10 @@ library(lubridate)
 library(plotly)
 library(here)
 library(ggthemes)
-library(kableExtra)
 library(gt)
 library(dplyr)
+library(knitr)
+library(rmarkdown)
 ```
 
 ```{r read data, include = FALSE}
@@ -37,12 +39,9 @@ source("scripts/KC_rscript.R")
 source("scripts/JR_rscript.R")
 ```
 
+### The following graphs below report current figures from the COVID-19 Outbreak situtaion
 
-### The following graphs below report current figures from the COVID-19 Outbreak situtaion 
-
-
-#### Jess Cunliffe on the Hospitalisation Risk based on Age and Gender 
-
+#### Jess Cunliffe on the Hospitalisation Risk based on Age and Gender
 
 ```{r, include = TRUE, echo = FALSE, message = FALSE, warning = FALSE}
 
