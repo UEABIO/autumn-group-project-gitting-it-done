@@ -92,4 +92,11 @@ time_spent_in_hospital_graph <- ggplot(combined_data, aes(x = Age_Group, y = hos
   
 print(time_spent_in_hospital_graph)
 
+ggsave("figures/JC_risk_of_hospitalisation_plot.png",
+       plot = risk_of_hospitalisation_plot,
+       width = 35,
+       height = 20,
+       units = "cm",
+       device = "png")
+
 
