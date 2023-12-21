@@ -3,8 +3,8 @@ title: "Covid Outbreak Situation Report"
 author: "Jessica Cunliffe, William Clifton, Kelsey Connor, Jasper Raistrick"
 date: "2023-12-11"
 output:
-  html_document: default
-  pdf_document: default
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup , include = FALSE}
