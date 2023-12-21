@@ -39,7 +39,7 @@ source("scripts/KC_rscript.R")
 source("scripts/JR_rscript.R")
 ```
 
-### The following graphs below report current figures from the COVID-19 Outbreak situtaion
+### The following graphs below report current figures from the COVID-19 Outbreak situation {.tabset .tabset-fade}
 
 #### Jess Cunliffe on the Hospitalisation Risk based on Age and Gender
 
