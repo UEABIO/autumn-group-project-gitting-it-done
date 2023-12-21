@@ -88,7 +88,7 @@ print(age_and_race_boxplot_KC) # allows us to see the plot
 # saving the figure as a png 
 ggsave("figures/KC_age_and_race_boxplot.png",
        plot = age_and_race_boxplot_KC,
-       width = 35,
-       height = 20,
+       width = 35, #adjusting the width
+       height = 20, # adjusting the height
        units = "cm",
        device = "png")
