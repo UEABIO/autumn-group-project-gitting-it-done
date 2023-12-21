@@ -1,4 +1,4 @@
-#Correlation between time spent in hospital, age and gender
+#Correlation between time spent in hospital and age
 
 #Clearing Environment at start of session
 #rm(list=ls())
@@ -92,11 +92,11 @@ time_spent_in_hospital_graph <- ggplot(combined_data, aes(x = Age_Group, y = hos
   
 print(time_spent_in_hospital_graph)
 
-ggsave("figures/JC_risk_of_hospitalisation_plot.png",
-       plot = risk_of_hospitalisation_plot,
+ggsave("figures/WC_time_spent_in_hospital_age_group.png",
+       plot = time_spent_in_hospital_graph,
        width = 35,
        height = 20,
        units = "cm",
-       device = "png")
+       device = "png") #creating a png 
 
 
