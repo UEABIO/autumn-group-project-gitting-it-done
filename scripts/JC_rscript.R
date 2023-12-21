@@ -146,9 +146,9 @@ print(risk_of_hospitalisation_plot)
 # Saving Visual ----
 
 #Saving figure as PNG
-ggsave("figures/JC_risk_of_hospitalisation_plot.png",
-       plot = risk_of_hospitalisation_plot,
-       width = 35,
-       height = 20,
-       units = "cm",
-       device = "png")
+#ggsave("figures/JC_risk_of_hospitalisation_plot.png",
+       #plot = risk_of_hospitalisation_plot,
+       #width = 35,
+       #height = 20,
+       #units = "cm",
+       #device = "png")
