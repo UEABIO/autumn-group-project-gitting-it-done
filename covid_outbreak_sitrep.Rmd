@@ -55,20 +55,12 @@ risk_of_hospitalisation_plot
 
 
 
-
-
 ```{r, Include = TRUE, echo = FALSE, message = FALSE, warning = FALSE}
 
 time_spent_in_hospital_graph
 
 
 ```
-
-
-
-
-
-
 
 
 #### Kelsey Connor (100390314) on the Differences in Ages with COVID-19 across Races
@@ -81,16 +73,20 @@ age_and_race_boxplot_KC
 
 ```
 
+  
+#### Jasper Raistrick on the most common Covid symptoms  
 
 
+  
+  
+
+```{r, Include = TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.asp = 0.8, fig.width = 11, out.width = "80%"}
 
 
-#### Jasper Raistrick on the most common Covid symptoms 
-
-
-
-```{r, Include = TRUE, echo = FALSE, message = FALSE, warning = FALSE}
 
 covid_symptoms_bar_chart
+
+
+
 
 ```
