@@ -85,10 +85,10 @@ stat_summary( # used to calculate summary statistics and display them on the box
 ) 
 print(age_and_race_boxplot_KC) # allows us to see the plot 
 
-# saving the figure as a png 
-ggsave("figures/KC_age_and_race_boxplot.png",
-       plot = age_and_race_boxplot_KC,
-       width = 35, #adjusting the width
-       height = 20, # adjusting the height
-       units = "cm",
-       device = "png")
+# saving the figure as a png (adding # to the code so it doesnt run everyimte)
+# ggsave("figures/KC_age_and_race_boxplot.png",
+      # plot = age_and_race_boxplot_KC,
+      # width = 35, #adjusting the width
+      # height = 20, # adjusting the height
+      # units = "cm",
+      # device = "png")
